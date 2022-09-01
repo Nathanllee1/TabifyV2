@@ -9,9 +9,11 @@
     "serve": "vite preview"
   },
   "devDependencies": {
+    "@iconify/svelte": "^2.2.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@testing-library/svelte": "^3.0.3",
     "@types/jest": "^26.0.21",
+    "@types/request": "^2.48.8",
     "@types/spotify-web-playback-sdk": "^0.1.15",
     "@vercel/node": "^2.5.8",
     "autoprefixer": "^10.2.5",
@@ -19,6 +21,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.12",
     "daisyui": "^2.24.0",
+    "fast-average-color": "^9.1.1",
     "jest": "^26.6.3",
     "postcss": "^8.4.6",
     "postcss-load-config": "^4.0.1",

@@ -1,7 +1,7 @@
 // Customized HMR-safe stores
 // Based off https://github.com/svitejs/svite/blob/ddec6b9/packages/playground/hmr/src/stores/hmr-stores.js
 import type { Writable } from 'svelte/store';
-import { AppStore, CurrentTrackId, SpotifyState } from './lib/stores';
+import { AppStore, CurrentTrack, SpotifyState } from './lib/stores';
 
 let stores: Record<string, Writable<any>> = {};
 
@@ -12,7 +12,7 @@ export function registerStore<T>(id: string, store: Writable<T>) {
 
 registerStore('appstore', AppStore);
 registerStore("spotifystate", SpotifyState);
-registerStore("currentrack", CurrentTrackId)
+registerStore("currentrack", CurrentTrack)
 
 
 // preserve the store across HMR updates

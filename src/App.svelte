@@ -8,6 +8,7 @@
     } from "./lib/stores";
     import { fade, fly } from "svelte/transition";
     import Icon from "@iconify/svelte";
+import { getTimestamp } from "./lib/utils";
 
     $: appStore = $AppStore;
     $: spotifyState = $SpotifyState;
@@ -30,7 +31,10 @@
                 <img class="mb-4" src="/mobile_1.jpg" alt="Mobile 1" />
                 <img src="/mobile_2.jpg" alt="Mobile 2" />
                 <div class="divider">Troubleshooting</div>
-                <div>If Tabify doesn't show up or disappears after clicking, exit Spotify and reload Tabify. If that doesn't work, wait a bit</div>
+                <div>
+                    If Tabify doesn't show up or disappears after clicking, exit
+                    Spotify and reload Tabify. If that doesn't work, wait a bit
+                </div>
             </div>
         </div>
     {/if}
@@ -42,7 +46,6 @@
             <div
                 class="overflow-y-auto overflow-x-hidden flex justify-center pt-10"
                 transition:fade={{ duration: 300 }}
-                
             >
                 {#if tab_obj["TAB"] === "Tab not found."}
                     <div>
@@ -142,7 +145,7 @@
                         <div
                             class="tooltip"
                             data-tip="Next"
-                            style="font-size:25px;" 
+                            style="font-size:25px;"
                             on:click={async (ev) => {
                                 await appStore.player.nextTrack();
                             }}
@@ -150,12 +153,32 @@
                             <Icon class="cursor-pointer" icon="bi:skip-end" />
                         </div>
                     </div>
+                    <div class="flex gap-2 align-middle">
+                        <div class="mb-1 font-mono">
+                            {getTimestamp(progress.songMS)}
+                        </div>
+                        
+                        <input
+                            type="range"
+                            min="0"
+                            max={progress.maxMS}
+                            value={progress.songMS}
+                            class="range range-xs"
+                            on:change={async (e) => {
+                                // @ts-ignore
+                                const location = parseInt(e.target.value);
 
-                    <progress
-                        class="w-full h-1"
-                        max={progress.maxMS}
-                        value={progress.songMS}
-                    />
+                                await appStore.player.seek(location);
+                                Progress.seek(location);
+                            }}
+                        />
+                        <div class="font-mono">
+                            {getTimestamp(progress.maxMS)}
+                        </div>
+                    </div>
+                </div>
+                <div class="basis-1/4">
+
                 </div>
             {/if}
         </div>

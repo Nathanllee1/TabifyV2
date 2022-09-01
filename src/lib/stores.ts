@@ -123,6 +123,12 @@ export const Progress = (() => {
         return progress;
       });
     },
+    seek: (ms: number) => {
+      update((progress) => {
+        progress.songMS = ms;
+        return progress
+      })
+    },
     update
   };
 })();

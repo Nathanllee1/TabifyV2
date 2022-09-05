@@ -1,16 +1,15 @@
 <script lang="ts">
-    import {
-        SpotifyState,
-        AppStore,
-        Tab,
-        Progress,
-        ThemeColors,
-        AutoScroll,
-    } from "./lib/stores";
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
     import { getTimestamp } from "./lib/utils";
     import Loading from "./Loading.svelte";
+
+    // various stores
+    import { AppStore } from "./lib/AppStore";
+    import { SpotifyState } from "./lib/SpotifyStateStore";
+    import { Tab } from "./lib/TabStore";
+    import { Progress } from "./lib/ProgressStore";
+    import { ThemeColors } from "./lib/ThemeStore";
 
     $: appStore = $AppStore;
     $: spotifyState = $SpotifyState;
@@ -166,7 +165,7 @@
                             style="font-size:25px;"
                             on:click={async (ev) => {
                                 await appStore.player.nextTrack();
-                                AutoScroll.updateSize();
+                                // AutoScroll.updateSize();
                             }}
                         >
                             <Icon class="cursor-pointer" icon="bi:skip-end" />

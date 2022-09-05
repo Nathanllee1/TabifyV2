@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
+    import { fade, fly } from "svelte/transition";
     import Icon from "@iconify/svelte";
     import { getTimestamp } from "./lib/utils";
     import Loading from "./Loading.svelte";
@@ -10,6 +10,9 @@
     import { Tab } from "./lib/TabStore";
     import { Progress } from "./lib/ProgressStore";
     import { ThemeColors } from "./lib/ThemeStore";
+
+
+    import Tutorial from "./Tutorial.svelte";
 
     $: appStore = $AppStore;
     $: spotifyState = $SpotifyState;
@@ -22,36 +25,15 @@
 
 <div class="flex flex-col min-h-screen max-h-screen ">
     {#if !appStore.canSwitch}
-        <input type="checkbox" id="my-modal" class="modal-toggle" checked />
-        <div class="modal">
-            <div class="modal-box">
-                <div class="text-3xl font-bold ">Get started</div>
-                <div class="mb-4">Select Tabify as your device</div>
-                <div class="text-xl mb-4">Desktop</div>
-                <img src="/device_tabify.png" alt="Desktop setup" />
-                <div class="divider">OR</div>
-                <div class="text-xl mb-4">Mobile</div>
-                <img class="mb-4" src="/mobile_1.jpg" alt="Mobile 1" />
-                <img src="/mobile_2.jpg" alt="Mobile 2" />
-                <div class="divider">Troubleshooting</div>
-                <div>
-                    If Tabify doesn't show up or disappears after clicking, exit
-                    Spotify and reload Tabify. If that doesn't work, wait a bit
-                </div>
-            </div>
-        </div>
+        <Tutorial />
     {/if}
 
     {#if tab}
-        {#await tab}
-            <Loading />
-        {:then tab_obj}
-            <div
-                class="overflow-y-auto overflow-x-hidden "
-                id="tabContainer"
-            >
+        {#await tab then tab_obj}
+
+            <div class="overflow-y-auto overflow-x-hidden " id="tabContainer">
                 {#if tab_obj["TAB"] === "Tab not found."}
-                    <div class="flex justify-center">
+                    <div class="flex justify-center align-middle">
                         <div class="text-center card max-w-lg">
                             <div class="text-4xl mt-4">Tab not found</div>
                             <br />
@@ -72,17 +54,20 @@
                         </div>
                     </div>
                 {:else}
-                    <div class="flex justify-center">
-                        <div class="card m-10 max-w-sm">
-                            <a target="_blank" class="btn" href={tab_obj["URL"]}
-                                >View on ultimate guitar</a
-                            >
+                    <div in:fade="{{duration: 700}}">
+                        <div class="flex justify-center">
+                            <div class="card m-10 max-w-sm">
+                                <a target="_blank" class="btn" href={tab_obj["URL"]}
+                                    >View on ultimate guitar</a
+                                >
+                            </div>
+                        </div>
+    
+                        <div class="flex justify-center">
+                            {@html tab_obj["TAB"]}
                         </div>
                     </div>
-
-                    <div class="flex justify-center">
-                        {@html tab_obj["TAB"]}
-                    </div>
+                    
                 {/if}
             </div>
         {/await}

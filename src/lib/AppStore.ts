@@ -3,63 +3,6 @@ import { SpotifyState } from "./SpotifyStateStore";
 
 export const AppStore = createAppStore();
 
-const switchDevice = async (deviceId: string, token: string) => {
-  const myHeaders = new Headers();
-  myHeaders.append(
-    "Authorization",
-    `Bearer ${token}`,
-  );
-  myHeaders.append("Content-Type", "application/json");
-
-  const raw = JSON.stringify({
-    "device_ids": [
-      deviceId,
-    ],
-  });
-
-  const requestOptions = {
-    method: "PUT",
-    headers: myHeaders,
-    body: raw,
-  };
-
-  const res = await fetch(
-    `https://api.spotify.com/v1/me/player?device_id=${deviceId}`,
-    requestOptions,
-  );
-
-  if (!res.ok) {
-    AppStore.update((store) => {
-      store.canSwitch = false;
-      return store;
-    });
-
-    throw ("Can't switch devices");
-  }
-};
-
-const waitForPlayerSwitch = async (deviceId: string) => {
-  return new Promise<void>(async (resolve, reject) => {
-    const appStore = get(AppStore);
-
-    try {
-      await switchDevice(deviceId, appStore.token);
-    } catch {
-      resolve();
-    }
-
-    appStore.player.on("player_state_changed", (state) => {
-      SpotifyState.set(state);
-      AppStore.update((store) => {
-        store.connected = true;
-        return store;
-      });
-
-      resolve();
-    });
-  });
-};
-
 function createAppStore() {
   const token = new URLSearchParams(window.location.search).get("token");
 
@@ -159,3 +102,61 @@ const waitForSpotifyAuthenticated = (player: Spotify.Player) => {
     });
   });
 };
+
+
+const switchDevice = async (deviceId: string, token: string) => {
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${token}`,
+    );
+    myHeaders.append("Content-Type", "application/json");
+  
+    const raw = JSON.stringify({
+      "device_ids": [
+        deviceId,
+      ],
+    });
+  
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+    };
+  
+    const res = await fetch(
+      `https://api.spotify.com/v1/me/player?device_id=${deviceId}`,
+      requestOptions,
+    );
+  
+    if (!res.ok) {
+      AppStore.update((store) => {
+        store.canSwitch = false;
+        return store;
+      });
+  
+      throw ("Can't switch devices");
+    }
+  };
+  
+  const waitForPlayerSwitch = async (deviceId: string) => {
+    return new Promise<void>(async (resolve, reject) => {
+      const appStore = get(AppStore);
+  
+      try {
+        await switchDevice(deviceId, appStore.token);
+      } catch {
+        resolve();
+      }
+  
+      appStore.player.on("player_state_changed", (state) => {
+        SpotifyState.set(state);
+        AppStore.update((store) => {
+          store.connected = true;
+          return store;
+        });
+  
+        resolve();
+      });
+    });
+  };

@@ -1,4 +1,5 @@
 import { get, writable } from "svelte/store";
+import { CurrentTrack } from "./SpotifyStateStore";
 
 interface TabData {
   DATA: string;
@@ -24,29 +25,27 @@ export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
  * @param song
  * @returns
  */
-export const getTab = (name: string, artist: string, song: Spotify.Track) => {
-  return new Promise<TabData>(async (resolve, reject) => {
+export const getTab = async(name: string, artist: string, song: Spotify.Track) : Promise<TabData> => {
     if (get(TabCache)[song.id]) {
-      return resolve(get(TabCache)[song.id]);
+      return (get(TabCache)[song.id]);
     }
 
-    let formattedName = name.split(" - ")[0]
-    formattedName = formattedName.split("(")[0]
+    let formattedName = name.split(" - ")[0];
+    formattedName = formattedName.split("(")[0];
 
     try {
       const res = await fetch(
-        `/api?song_name=${
-          encodeURIComponent(formattedName)
-        }&artist_name=${
+        `/api?song_name=${encodeURIComponent(formattedName)}&artist_name=${
           encodeURIComponent(
             artist,
           )
         }`,
       );
 
-      resolve(await res.json());
+      return await res.json();
+
     } catch {
-      reject();
+      
     }
-  });
+
 };

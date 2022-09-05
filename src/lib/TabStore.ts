@@ -8,7 +8,7 @@ export const TabCache = writable<Record<string, TabData>>({});
 export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
   nextSongs.map(async (song) => {
     if (!get(TabCache)[song.id]) {
-      const tab = await getTab(song.artists[0].name, song.name, song);
+      const tab = await getTab(song.name, song.artists[0].name, song);
       TabCache.update((cache) => {
         cache[song.id] = tab;
         return cache;

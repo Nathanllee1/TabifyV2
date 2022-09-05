@@ -29,9 +29,15 @@ export const getTab = (name: string, artist: string, song: Spotify.Track) => {
     if (get(TabCache)[song.id]) {
       return resolve(get(TabCache)[song.id]);
     }
+
+    let formattedName = name.split(" - ")[0]
+    formattedName = formattedName.split("(")[0]
+
     try {
       const res = await fetch(
-        `/api?song_name=${encodeURIComponent(name)}&artist_name=${
+        `/api?song_name=${
+          encodeURIComponent(formattedName)
+        }&artist_name=${
           encodeURIComponent(
             artist,
           )

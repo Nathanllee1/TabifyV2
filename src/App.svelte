@@ -20,7 +20,7 @@
     let autoScroll: boolean;
 </script>
 
-<div class="flex flex-col min-h-screen max-h-screen text-neutral">
+<div class="flex flex-col min-h-screen max-h-screen ">
     {#if !appStore.canSwitch}
         <input type="checkbox" id="my-modal" class="modal-toggle" checked />
         <div class="modal">
@@ -49,7 +49,6 @@
             <div
                 class="overflow-y-auto overflow-x-hidden "
                 id="tabContainer"
-                transition:fade={{ duration: 300 }}
             >
                 {#if tab_obj["TAB"] === "Tab not found."}
                     <div class="flex justify-center">

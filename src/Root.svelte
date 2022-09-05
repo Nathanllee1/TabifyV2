@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { init } from "svelte/internal";
-
   import App from "./App.svelte";
   import { AppStore } from "./lib/stores";
+import Loading from "./Loading.svelte";
   import Splash from "./Splash.svelte";
 </script>
 
@@ -11,7 +9,9 @@
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </svelte:head>
 
-{#await AppStore.init() then value}
+{#await AppStore.init()}
+  <Loading />
+{:then value}
   {#if $AppStore.authenticated}
     <App />
   {:else}

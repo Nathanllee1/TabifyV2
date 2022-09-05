@@ -1,3 +1,6 @@
+<script>
+
+</script>
 <div class="hero min-h-screen bg-base-200">
     <div class="hero-content flex-col flex-wrap lg:flex-row-reverse gap-14">
         <div class="shadow-lg rounded-lg bg-white p-12">
@@ -8,10 +11,15 @@
             <div>
                 Tabify connects to Spotify and automatically pulls up chords from Ultimate Guitar.
             </div>
+            <br/>
+            <img src="/app.png" alt="app diagram"/>
+            <!--
             <object id ="animated-svg" type="image/svg+xml" data="./animation.svg" title="app demo"></object>
+            -->
             <a class="btn" href="/api/login"> Login to Spotify </a>
 
         </div>
         <img src="/splash.svg" alt="Guy playing guitar"/>
     </div>
 </div>
+

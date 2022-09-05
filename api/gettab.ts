@@ -13,7 +13,7 @@ export default async function handler(
 
 
   let tab = await tabServices.getTabByTitleAndArtist(name, artist);
-
+  
   // if tab is in database, return tab
   if (tab.length !== 0) {
     console.log("Tab found in database.");

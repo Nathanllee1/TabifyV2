@@ -6,7 +6,6 @@ import { AppStore, CurrentTrack, SpotifyState } from './lib/stores';
 let stores: Record<string, Writable<any>> = {};
 
 export function registerStore<T>(id: string, store: Writable<T>) {
-  console.log("Registring id")
   stores[id] = store;
 }
 

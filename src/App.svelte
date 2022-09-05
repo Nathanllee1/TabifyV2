@@ -5,20 +5,24 @@
         Tab,
         Progress,
         ThemeColors,
+        AutoScroll,
     } from "./lib/stores";
-    import { fade, fly } from "svelte/transition";
+    import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-import { getTimestamp } from "./lib/utils";
+    import { getTimestamp } from "./lib/utils";
+    import Loading from "./Loading.svelte";
 
     $: appStore = $AppStore;
     $: spotifyState = $SpotifyState;
     $: tab = $Tab;
     $: progress = $Progress;
     $: themeColors = $ThemeColors;
+
+    let autoScroll: boolean;
 </script>
 
 <div class="flex flex-col min-h-screen max-h-screen text-neutral">
-    {#if !appStore.connected}
+    {#if !appStore.canSwitch}
         <input type="checkbox" id="my-modal" class="modal-toggle" checked />
         <div class="modal">
             <div class="modal-box">
@@ -41,32 +45,46 @@ import { getTimestamp } from "./lib/utils";
 
     {#if tab}
         {#await tab}
-            <div>Loading</div>
+            <Loading />
         {:then tab_obj}
             <div
-                class="overflow-y-auto overflow-x-hidden flex justify-center pt-10"
+                class="overflow-y-auto overflow-x-hidden "
+                id="tabContainer"
                 transition:fade={{ duration: 300 }}
             >
                 {#if tab_obj["TAB"] === "Tab not found."}
-                    <div>
-                        <div class="text-4xl mt-4">Tab not found</div>
-                        <br />
-                        <img
-                            width="300px"
-                            src="/notfound.svg"
-                            alt="Not found icon"
-                        />
-                        <br />
-                        <div>
-                            Add one at <a
-                                class="link"
-                                href="https://www.ultimate-guitar.com/contribution/submit/tabs?app_utm_campaign=top_menu&app_utm_content=button&app_utm_medium=internal&app_utm_source=ug&app_utm_term=publish"
-                                >Ultimate Guitar!</a
-                            >
+                    <div class="flex justify-center">
+                        <div class="text-center card max-w-lg">
+                            <div class="text-4xl mt-4">Tab not found</div>
+                            <br />
+                            <img
+                                width="300px"
+                                src="/notfound.svg"
+                                alt="Not found icon"
+                            />
+                            <br />
+                            <div>
+                                Add one at <a
+                                    class="link"
+                                    target="_blank"
+                                    href="https://www.ultimate-guitar.com/contribution/submit/tabs?app_utm_campaign=top_menu&app_utm_content=button&app_utm_medium=internal&app_utm_source=ug&app_utm_term=publish"
+                                    >Ultimate Guitar!</a
+                                >
+                            </div>
                         </div>
                     </div>
                 {:else}
-                    {@html tab_obj["TAB"]}
+                    <div class="flex justify-center">
+                        <div class="card m-10 max-w-sm">
+                            <a target="_blank" class="btn" href={tab_obj["URL"]}
+                                >View on ultimate guitar</a
+                            >
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        {@html tab_obj["TAB"]}
+                    </div>
                 {/if}
             </div>
         {/await}
@@ -148,6 +166,7 @@ import { getTimestamp } from "./lib/utils";
                             style="font-size:25px;"
                             on:click={async (ev) => {
                                 await appStore.player.nextTrack();
+                                AutoScroll.updateSize();
                             }}
                         >
                             <Icon class="cursor-pointer" icon="bi:skip-end" />
@@ -157,7 +176,7 @@ import { getTimestamp } from "./lib/utils";
                         <div class="mb-1 font-mono">
                             {getTimestamp(progress.songMS)}
                         </div>
-                        
+
                         <input
                             type="range"
                             min="0"
@@ -178,7 +197,24 @@ import { getTimestamp } from "./lib/utils";
                     </div>
                 </div>
                 <div class="basis-1/4">
-
+                    <!--
+                    <label
+                        class="label cursor-pointer justify-center gap-2 mt-5"
+                    >
+                        <span class="">Autoscroll</span>
+                        <input
+                            type="checkbox"
+                            class="toggle"
+                            on:click={(e) => {
+                                // @ts-ignore
+                                const checked = e.target.checked;
+                                checked
+                                    ? AutoScroll.start()
+                                    : AutoScroll.stop();
+                            }}
+                        />
+                    </label>
+                    -->
                 </div>
             {/if}
         </div>

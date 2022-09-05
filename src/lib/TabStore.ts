@@ -31,7 +31,7 @@ export const getTab = (name: string, artist: string, song: Spotify.Track) => {
     }
     try {
       const res = await fetch(
-        `/api/gettab?song_name=${encodeURIComponent(name)}&artist_name=${
+        `/api?song_name=${encodeURIComponent(name)}&artist_name=${
           encodeURIComponent(
             artist,
           )

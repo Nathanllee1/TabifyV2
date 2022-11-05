@@ -1,4 +1,5 @@
 import { get, writable } from "svelte/store";
+import { Progress } from "./ProgressStore";
 import { SpotifyState } from "./SpotifyStateStore";
 
 export const AppStore = createAppStore();
@@ -150,11 +151,22 @@ const switchDevice = async (deviceId: string, token: string) => {
       }
   
       appStore.player.on("player_state_changed", (state) => {
-        SpotifyState.set(state);
+
+        Progress.update((progress) => {
+          progress.songMS = state.position
+          return progress
+        })
+        
+        SpotifyState.set({
+          ...state,
+          // get around dumb timing bug
+          duration: state.context.metadata.current_item.estimated_duration
+        });
         AppStore.update((store) => {
           store.connected = true;
           return store;
         });
+
   
         resolve();
       });

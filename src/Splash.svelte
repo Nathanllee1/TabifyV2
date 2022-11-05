@@ -19,7 +19,7 @@
     </div>
     <footer class="footer p-10 bg-neutral text-neutral-content">
         <div>
-            Made with ❤️ by Nathan, Emma, Nic, Blake
+            Made with ❤️ by Nathan, Emma, Nic, Blake, and Bella
         </div>
     </footer>
 </div>

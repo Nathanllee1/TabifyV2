@@ -1,5 +1,5 @@
 <script lang="ts">
-  import App from "./App.svelte";
+  import App from "./App/App.svelte";
   import { AppStore } from "./lib/AppStore";
   import Loading from "./Loading.svelte";
   import Splash from "./Splash.svelte";

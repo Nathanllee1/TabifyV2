@@ -1,6 +1,7 @@
 import { get, writable } from "svelte/store";
 import { Progress } from "./ProgressStore";
 import { SpotifyState } from "./SpotifyStateStore";
+import { UserStore } from "./UserStore";
 
 export const AppStore = createAppStore();
 
@@ -33,6 +34,10 @@ function createAppStore() {
       if (!store.token) {
         return;
       }
+
+      // get and set the user's profile
+      UserStore.init(token)
+
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {
         window.location.href = "/";

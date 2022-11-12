@@ -79,13 +79,13 @@ export const AutoScroll = (() => {
           // set interval to add pixels to scroll
           console.log(
             "rate: ",
-            (element.scrollHeight / get(Progress).maxMS) * 1000,
+            (element.scrollHeight / get(Progress).maxMS) * 200,
           );
           element.scrollBy({
-            top: (element.scrollHeight / get(Progress).maxMS) * 1000,
+            top: (element.scrollHeight / get(Progress).maxMS) * 200,
             behavior: "smooth",
           });
-        }, 1000);
+        }, 200);
         return autoScroll;
       });
     },

@@ -8,11 +8,12 @@
     import { AppStore } from "./lib/AppStore";
     import { SpotifyState } from "./lib/SpotifyStateStore";
     import { Tab } from "./lib/TabStore";
-    import { Progress } from "./lib/ProgressStore";
+    import { AutoScroll, Progress } from "./lib/ProgressStore";
     import { ThemeColors } from "./lib/ThemeStore";
 
 
     import Tutorial from "./Tutorial.svelte";
+    import { onMount } from "svelte";
 
     $: appStore = $AppStore;
     $: spotifyState = $SpotifyState;
@@ -198,11 +199,9 @@
                         />
                     </label>
                     -->
+                    
                 </div>
             {/if}
         </div>
     </div>
 </div>
-
-<style>
-</style>

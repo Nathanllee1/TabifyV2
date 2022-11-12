@@ -1,12 +1,12 @@
 import { get, writable } from "svelte/store";
 import { Progress } from "./ProgressStore";
 import { getTab, Tab, updateTabCache } from "./TabStore";
+import { getTimestamp } from "./utils";
 export const CurrentTrack = writable<Spotify.Track>();
 
 export const SpotifyState = writable<Spotify.PlaybackState>();
 
 SpotifyState.subscribe(async (state) => {
-  // console.log(state)
   const currentTrack = get(CurrentTrack);
   const eventTrack = state?.track_window?.current_track;
   if (state?.paused) {
@@ -30,8 +30,8 @@ SpotifyState.subscribe(async (state) => {
     // reset timer
     Progress.reset();
 
-    Progress.update((progress) => {
-      progress.maxMS = state.track_window.current_track.duration_ms;
+    Progress.update((progress) => { 
+      progress.maxMS = state.duration;
       return progress;
     });
 

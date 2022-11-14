@@ -136,8 +136,8 @@
                             // @ts-ignore
                             const checked = e.target.checked;
                             checked
-                                ? AutoScroll.start()
-                                : AutoScroll.stop();
+                                ? AutoScroll.check()
+                                : AutoScroll.uncheck();
                         }}
                     />
                 </label>

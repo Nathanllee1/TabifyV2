@@ -21,8 +21,6 @@ export const Progress = (() => {
         clearInterval(progress.interval);
         progress.interval = null;
         progress.paused = true;
-
-        AutoScroll.stop()
         
         return progress;
       });
@@ -36,8 +34,6 @@ export const Progress = (() => {
               return progress;
             });
           }, 500);
-
-          AutoScroll.play();
 
           progress.paused = false;
         }

@@ -1,8 +1,10 @@
 <script lang="ts">
     import { Tab } from "../lib/TabStore";
     import { fade } from "svelte/transition";
+    import { transposeStore } from "../lib/TransposeStore";
 
     $: tab = $Tab;
+    $: transposition = $transposeStore;
 </script>
 
 {#if tab}
@@ -31,10 +33,10 @@
                 </div>
             {:else}
                 <div in:fade={{ duration: 700 }}>
-                    <div class="flex justify-center gap-2 m-6">
+                    <div class="flex justify-center gap-4 m-6 align-middle ">
                         <a
                             target="_blank"
-                            class="btn btn-warning"
+                            class="btn btn-warning self-center"
                             href={tab_obj["URL"]}>View on ultimate guitar</a
                         >
                         <!--
@@ -42,6 +44,23 @@
                             Report Wrong Tab
                         </div>
                     -->
+                        <div class="flex outline-1 outline-double outline-gray-200 rounded-lg p-3 gap-2">
+                            <div class="self-center font-light">Transpose</div>
+                            <div
+                                class="btn btn-outline btn-sm self-center"
+                                on:click={() => transposeStore.increase()}
+                            >
+                                +
+                            </div>
+                            <div class="self-center w-6 text-center font-semibold">{transposition.semitones}</div>
+                            <div
+                                class="btn btn-outline btn-sm self-center"
+                                on:click={() => transposeStore.decrease()}
+                            >
+                                -
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div class="flex justify-center mb-10">

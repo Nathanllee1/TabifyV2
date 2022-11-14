@@ -3,8 +3,9 @@
     import { getTimestamp } from "../lib/utils";
     import { SpotifyState } from "../lib/SpotifyStateStore";
     import { ThemeColors } from "../lib/ThemeStore";
-    import { AutoScroll, Progress } from "../lib/ProgressStore";
+    import { Progress } from "../lib/ProgressStore";
     import { AppStore } from "../lib/AppStore";
+    import { AutoScroll } from "../lib/Autoscroll";
 
     $: spotifyState = $SpotifyState;
     $: themeColors = $ThemeColors;
@@ -123,7 +124,7 @@
                 </div>
             </div>
             <div class="basis-1/4">
-                <!--
+                
                 <label
                     class="label cursor-pointer justify-center gap-2 mt-5"
                 >
@@ -135,12 +136,12 @@
                             // @ts-ignore
                             const checked = e.target.checked;
                             checked
-                                ? AutoScroll.start()
-                                : AutoScroll.stop();
+                                ? AutoScroll.check()
+                                : AutoScroll.uncheck();
                         }}
                     />
                 </label>
-                -->
+                
             </div>
         {/if}
     </div>

@@ -37,6 +37,7 @@
     "vite": "^3.0.0"
   },
   "dependencies": {
+    "chord-transposer": "^3.0.1",
     "dotenv": "^16.0.1",
     "mongoose": "^6.5.2"
   }

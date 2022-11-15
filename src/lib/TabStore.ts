@@ -1,11 +1,12 @@
 import { get, writable } from "svelte/store";
 import { CurrentTrack } from "./SpotifyStateStore";
 
-interface TabData {
-  DATA: string;
+export interface TabData {
+  chords: string,
+  url: string
 }
-export const Tab = writable<Promise<TabData>>();
-export const TabCache = writable<Record<string, TabData>>({});
+export const Tab = writable<Promise<TabData[]>>();
+export const TabCache = writable<Record<string, TabData[]>>({});
 export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
   nextSongs.map(async (song) => {
     if (!get(TabCache)[song.id]) {
@@ -25,7 +26,7 @@ export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
  * @param song
  * @returns
  */
-export const getTab = async(name: string, artist: string, song: Spotify.Track) : Promise<TabData> => {
+export const getTab = async(name: string, artist: string, song: Spotify.Track) : Promise<TabData[]> => {
     if (get(TabCache)[song.id]) {
       return (get(TabCache)[song.id]);
     }

@@ -2,15 +2,17 @@
     import { Tab } from "../lib/TabStore";
     import { fade } from "svelte/transition";
     import { transposeStore } from "../lib/TransposeStore";
+    import { selectedTab } from "../lib/SelectedTab";
 
     $: tab = $Tab;
     $: transposition = $transposeStore;
+    $: selected = $selectedTab;
 </script>
 
 {#if tab}
     {#await tab then tab_obj}
         <div class="overflow-y-auto overflow-x-hidden " id="tabContainer">
-            {#if tab_obj["TAB"] === "Tab not found."}
+            {#if tab_obj.length === 0}
                 <div class="flex justify-center align-middle">
                     <div class="text-center card max-w-lg">
                         <div class="text-4xl mt-4">Tab not found</div>
@@ -32,39 +34,65 @@
                     </div>
                 </div>
             {:else}
-                <div in:fade={{ duration: 700 }}>
+                <div>
+                    <br />
+                    <div class="flex justify-center">
+                        <div class="tabs tabs-boxed">
+                            {#each tab_obj as tab, i}
+                                <div
+                                    class="tab {i === selected
+                                        ? 'tab-active'
+                                        : ''}"
+                                    on:click={() => selectedTab.set(i)}
+                                >
+                                    Version {i + 1}
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+
                     <div class="flex justify-center gap-4 m-6 align-middle ">
                         <a
                             target="_blank"
                             class="btn btn-warning self-center"
-                            href={tab_obj["URL"]}>View on ultimate guitar</a
+                            href={tab_obj[selected].url}
+                            >View on ultimate guitar</a
                         >
-                        <!--
-                        <div class="btn btn-outline btn-error">
-                            Report Wrong Tab
-                        </div>
-                    -->
-                        <div class="flex outline-1 outline-double outline-gray-200 rounded-lg p-3 gap-2">
-                            <div class="self-center font-light">Transpose</div>
+
+                        <div
+                            class="flex outline-1 outline-double outline-gray-200 rounded-lg p-3 gap-2"
+                        >
                             <div
                                 class="btn btn-outline btn-sm self-center"
+                                title="Transpose Up"
                                 on:click={() => transposeStore.increase()}
                             >
                                 +
                             </div>
-                            <div class="self-center w-6 text-center font-semibold">{transposition.semitones}</div>
+                            <div
+                                class="self-center w-6 text-center font-semibold"
+                            >
+                                {transposition.semitones}
+                            </div>
                             <div
                                 class="btn btn-outline btn-sm self-center"
+                                title="Transpose Down"
                                 on:click={() => transposeStore.decrease()}
                             >
                                 -
                             </div>
                         </div>
-                        
+
+                        <div
+                            class="btn btn-outline btn-error self-center"
+                            title="Report Wrong Tab"
+                        >
+                            !
+                        </div>
                     </div>
 
                     <div class="flex justify-center mb-10">
-                        {@html tab_obj["TAB"]}
+                        {@html tab_obj[selected].chords}
                     </div>
                 </div>
             {/if}

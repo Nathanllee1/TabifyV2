@@ -58,17 +58,18 @@ def build_search_url(song_name, artist_name):
     return f"https://www.ultimate-guitar.com/search.php?title={artist_name} {song_name}&page=1&type=300".replace(" ", "%20")
 
 
-def get_tab_page_url(search_url):
+def get_tab_page_urls(search_url):
     """Given search url, gets the url of the correct tab page."""
     resp = requests.get(search_url)
     soup = BeautifulSoup(resp.content, "html.parser")
     soup = soup.find(class_="js-store")
     page_data = json.loads(soup["data-content"])
     results = page_data["store"]["page"]["data"]["results"]
+    tabs = []
     for tab in results:
         if "type" in tab.keys() and tab["type"] == "Chords":
-            return tab["tab_url"]
-    return False
+            tabs.append(tab["tab_url"])
+    return tabs
 
 
 def scrape_tab_html(tab_page_url):
@@ -81,7 +82,7 @@ def scrape_tab_html(tab_page_url):
     return parse_tab_page(unparsed_html)
 
 
-def get_tab(song_name, artist_name):
+def get_tabs(song_name, artist_name):
     """Returns the tab for a given song.
     Args:
             song_name (string): The name of the song whose tab will be scraped.
@@ -90,11 +91,15 @@ def get_tab(song_name, artist_name):
             string: The HTML of the tab.
     """
     search_url = build_search_url(song_name, artist_name)
-    tab_page_url = get_tab_page_url(search_url)
-    if tab_page_url == False:
-        return False, False
+    tab_page_urls = get_tab_page_urls(search_url)
+    results = []
+    for url in tab_page_urls:
+        results.append({
+            "chords": scrape_tab_html(url),
+            "url": url
+        })
 
-    return scrape_tab_html(tab_page_url), tab_page_url
+    return results
 
 
 class handler(BaseHTTPRequestHandler):
@@ -106,27 +111,9 @@ class handler(BaseHTTPRequestHandler):
         artist_name = arguments["artist_name"][0]
         song_name = arguments["song_name"][0]
 
-        response = {}
-
-        # If artist_name is not included
-        if not artist_name:
-            response["ERROR"] = "artist name not included."
-        # If song_name is not included
-        elif not song_name:
-            response["ERROR"] = "song name not included."
-        # When a valid request is made
-        else:
-            tab, url = get_tab(artist_name, song_name)
-            if tab == False:
-                response["TAB"] = "Tab not found."
-            else:
-                response["TAB"] = tab
-                response["URL"] = url
-
-
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
 
-        self.wfile.write(json.dumps(response).encode())
+        self.wfile.write(json.dumps(get_tabs(song_name, artist_name)).encode())
         return

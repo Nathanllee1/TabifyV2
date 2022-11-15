@@ -12,6 +12,7 @@ SPOTIFY_CLIENT_SECRET='YOUR_CLIENT_SERE'
 ```
 ```
 npm install
-npm run run-dev
+npm i -g vercel
+vercel dev
 ```
 This spins up a vite server for the frontend and starts up the serverless functions in the backend!

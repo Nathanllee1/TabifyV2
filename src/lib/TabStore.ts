@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import { CurrentTrack } from "./SpotifyStateStore";
+import { CurrentTrack, SpotifyState } from "./SpotifyStateStore";
 
 export interface TabData {
   chords: string,
@@ -50,3 +50,8 @@ export const getTab = async(name: string, artist: string, song: Spotify.Track) :
     }
 
 };
+
+Tab.subscribe(async (tab) => {
+  console.log(get(SpotifyState))
+  await fetch(`/api/history?song_id=${get(SpotifyState).track_window.current_track.id}&tab_returned=${(await tab).length === 0 ? "f" : "t"}`)
+})

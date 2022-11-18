@@ -16,18 +16,13 @@ export default async function handler(
   try {
     await query(
       connection,
-"INSERT INTO SONGS_PLAYED (SONG_ID, SESSION_ID, TIME_STARTED, TAB_RETURNED)\
-        VALUES (?, ?, ?, ?)",
+      "",
       [
-        request.query["song_id"],
-        request.cookies["session"],
-        convertToMySQLDate(new Date()),
-        request.query["tab_returned"] === "t" ? true : false,
+        
       ],
     );
     response.status(200).send({});
-  } catch(e) {
-    console.log(e)
+  } catch {
     response.status(500).send({});
   }
 }

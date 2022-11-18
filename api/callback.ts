@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Connection, createConnection } from "mysql2";
 import * as req from "request";
 import fetch, { Headers } from "node-fetch";
+import { convertToMySQLDate, query } from "./utils";
 
 var spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 var spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -28,20 +29,6 @@ const getSpotifyUser = async (authToken: string) => {
   return profile;
 };
 
-const query = (connection: Connection, query: string, subs: string[]) => {
-  return new Promise((accept, reject) => {
-    connection.query(
-      { sql: query },
-      subs,
-      function (err, results, fields) {
-        if (err) {
-          reject(err);
-        }
-        accept(results);
-      },
-    );
-  });
-};
 
 const getUser = (connection: Connection, userId: string) => {
   return new Promise((accept, reject) => {
@@ -55,9 +42,6 @@ const getUser = (connection: Connection, userId: string) => {
   });
 };
 
-const convertToMySQLDate = (date: Date) => {
-  return date.toISOString().slice(0, 19).replace('T', ' ')
-}
 
 export default async function handler(
   request: VercelRequest,
@@ -102,7 +86,7 @@ export default async function handler(
           connection,
           "INSERT INTO USERS (USER_ID, USERNAME, PROFILE_PIC_URL)\
           VALUES (?, ?, ?)",
-          [user.id, user.display_name, new URL(user.images[0].url).pathname],
+          [user.id, user.display_name, user.images[0].url],
         );
       }
 

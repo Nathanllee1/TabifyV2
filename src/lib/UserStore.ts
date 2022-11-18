@@ -21,7 +21,7 @@ function createUserStore() {
       };
       myHeaders.append("Content-Type", "application/json");
       const profile:SpotifyApi.CurrentUsersProfileResponse = await (await fetch("https://api.spotify.com/v1/me", requestOptions)).json();
-
+      console.log(profile)
       set({profile})
     },
   };

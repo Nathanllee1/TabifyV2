@@ -1,3 +1,4 @@
+
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Connection, createConnection } from "mysql2";
 import { convertToMySQLDate, getUserFromSession, query } from "./utils";
@@ -58,4 +59,16 @@ export default async function handler(
       return;
     }
   
+  try {
+    await query(
+      connection,
+      "",
+      [
+        
+      ],
+    );
+    response.status(200).send({});
+  } catch {
+    response.status(500).send({});
+  }
 }

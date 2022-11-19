@@ -30,6 +30,7 @@ export default async function handler(
     response.status(200).json(res);
   } catch(e) {
       console.log(e) 
+
     response.status(500).send({});
   }
 }

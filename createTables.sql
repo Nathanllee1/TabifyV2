@@ -1,0 +1,48 @@
+DROP TABLE USERS;
+CREATE TABLE USERS (
+    USER_ID varchar(50),
+    USERNAME varchar(50),
+    PROFILE_PIC_URL varchar(300),
+    PRIMARY KEY (USER_ID)
+);
+DROP TABLE TAB_PREFS;
+CREATE TABLE TAB_PREFS (
+    USER_ID varchar(50),
+    TAB_ID varchar(50),
+    SONG_ID varchar(50),
+    TRANSPOSE varchar(50),
+    PRIMARY KEY (USER_ID, TAB_ID)
+);
+DROP TABLE SONGS_PLAYED;
+CREATE TABLE SONGS_PLAYED(
+    SONG_ID varchar(50),
+    SESSION_ID varchar(50),
+    TIME_STARTED timestamp,
+    TAB_RETURNED tinyint(1),
+    PRIMARY KEY (SONG_ID, SESSION_ID)
+);
+DROP TABLE SONG_PREFS;
+CREATE TABLE SONG_PREFS(
+    USER_ID varchar(50),
+    SONG_ID varchar(50),
+    SELECTED_TAB varchar(300),
+    PRIMARY KEY (USER_ID, SONG_ID)
+);
+DROP TABLE SESSIONS;
+CREATE TABLE SESSIONS(
+    SESSION_ID varchar(50),
+    USER_ID varchar(50),
+    TIME_START timestamp,
+    TIME_END timestamp,
+    PRIMARY KEY (SESSIONID)
+);
+DROP TABLE ERRORS;
+CREATE TABLE ERRORS_(
+    USER_ID varchar(50),
+    ERR_ID varchar(50),
+    ERRCODE varchar(50),
+    TIME timestamp,
+    MESSAGE varchar(500),
+    CONTEXT_ varchar(150),
+    PRIMARY KEY (ERR_ID)
+);

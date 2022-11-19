@@ -1,40 +1,3 @@
-/*
-from urllib.parse import urlparse, parse_qs
-from http.server import BaseHTTPRequestHandler
-import json
-
-
-class handler(BaseHTTPRequestHandler):
-
-    def do_POST(self):
-        # session_id
-        # tab_id
-        # song_id
-        arguments = parse_qs(urlparse(self.path).query)
-
-        response = {}
-
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-
-        self.wfile.write(json.dumps(response).encode())
-        return
-
-    def do_GET(self):
-        # session_id
-        # song_id
-        arguments = parse_qs(urlparse(self.path).query)
-
-        response = {}
-
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-
-        self.wfile.write(json.dumps(response).encode())
-        return
-*/
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Connection, createConnection } from "mysql2";
 import { convertToMySQLDate, getUserFromSession, query } from "./utils";
@@ -45,23 +8,54 @@ export default async function handler(
 ) {
   const connection = createConnection(process.env.DATABASE_URL);
 
-  console.log(request.method)
-
   const userId =
     (await getUserFromSession(connection, request.cookies["session"]))[0][
       "USER_ID"
     ];
 
-  try {
-    await query(
-      connection,
-      "",
-      [
-        
-      ],
-    );
-    response.status(200).send({});
-  } catch {
-    response.status(500).send({});
-  }
+    if (request.method === "POST") {
+      try {
+        console.log(request.query["selected_tab"], request.query["song_id"])
+        const res = await query(
+          connection,
+          "INSERT INTO SONG_PREFS (USER_ID, SONG_ID, SELECTED_TAB)\
+           VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE USER_ID=?, SONG_ID=?, SELECTED_TAB=?" ,
+          [
+            userId, 
+            request.query["song_id"][0],
+            request.query["selected_tab"], 
+            userId, 
+            request.query["song_id"][0],
+            request.query["selected_tab"]
+          ],
+        );
+        response.status(200).json(res);
+      } catch(e) {
+          console.log(e) 
+        response.status(500).send({});
+      }
+      return;
+  
+    // tab_id
+    } else if (request.method === "GET") {
+      try {
+        const res = await query(
+          connection,
+          "SELECT *\
+          FROM SONG_PREFS\
+          WHERE USER_ID = ? AND SONG_ID = ?",
+          [
+            userId, 
+            request.query["song_id"]
+          ],
+        );
+        console.log(res)
+        response.status(200).json(res);
+      } catch(e) {
+          console.log(e)
+        response.status(500).send({});
+      }
+      return;
+    }
+  
 }

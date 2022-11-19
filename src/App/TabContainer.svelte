@@ -83,12 +83,7 @@
                             </div>
                         </div>
 
-                        <div
-                            class="btn btn-outline btn-error self-center"
-                            title="Report Wrong Tab"
-                        >
-                            !
-                        </div>
+                        
                     </div>
 
                     <div class="flex justify-center mb-10">

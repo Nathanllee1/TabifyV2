@@ -1,6 +1,8 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { Tab } from "./TabStore";
 import { transpose } from "chord-transposer";
+import { selectedTab } from "./SelectedTab";
+import { SpotifyState } from "./SpotifyStateStore";
 
 export let transposeStore = createTranspose();
 
@@ -43,8 +45,25 @@ function createTranspose() {
 /**
  * Reset transposition on each tab
  */
-Tab.subscribe((tab) => {
+Tab.subscribe(async (tab) => {
+
   transposeStore.set({
     semitones: 0,
   });
+});
+
+transposeStore.subscribe(async (transp) => {
+  if (transp.semitones !== 0) {
+    await fetch(
+      `/api/tabpreference?tab_id=${
+        (await get(Tab))[get(selectedTab)].url
+      }&song_id=${
+        get(SpotifyState).track_window.current_track.id
+      }&transpose=${transp.semitones}`,
+      {
+        method: "POST"
+      }
+    );
+  }
+  
 });

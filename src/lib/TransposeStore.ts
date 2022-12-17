@@ -52,18 +52,3 @@ Tab.subscribe(async (tab) => {
   });
 });
 
-transposeStore.subscribe(async (transp) => {
-  if (transp.semitones !== 0) {
-    await fetch(
-      `/api/tabpreference?tab_id=${
-        (await get(Tab))[get(selectedTab)].url
-      }&song_id=${
-        get(SpotifyState).track_window.current_track.id
-      }&transpose=${transp.semitones}`,
-      {
-        method: "POST"
-      }
-    );
-  }
-  
-});

@@ -52,6 +52,7 @@ export const getTab = async (
   }
 };
 
+// Log the tab in history
 Tab.subscribe(async (tab) => {
   console.log(get(SpotifyState));
   await fetch(

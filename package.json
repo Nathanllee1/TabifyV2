@@ -12,6 +12,7 @@
   "devDependencies": {
     "@iconify/svelte": "^2.2.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "@tailwindcss/typography": "^0.5.8",
     "@testing-library/svelte": "^3.0.3",
     "@types/jest": "^26.0.21",
     "@types/request": "^2.48.8",

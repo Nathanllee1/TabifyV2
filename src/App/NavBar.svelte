@@ -9,8 +9,8 @@
     <div class="text-xl flex-1 ml-3 font-bold">Tabify</div>
     <label for="help-modal" class="btn btn-outline btn-info">Help</label>
     {#if get(UserStore).profile}
-        <div class="dropdown dropdown-end ">
-            <div tabindex="0" class="btn btn-ghost btn-circle avatar ml-5">
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" class="btn btn-ghost btn-circle avatar ml-5 mt-2">
                 <div class="w-12 rounded-full">
                     <img
                         src={get(UserStore)?.profile.images[0].url}
@@ -20,12 +20,12 @@
             </div>
             <ul
                 tabindex="0"
-                class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+                class="mt-3 p-2 shadow-2xl menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
                 <li>
-                    
+                    <!--
                     <div on:click={() => AppPage.set("profile")}>Profile</div>
-                    
+                    -->
                     <a href="/" class="text-error">Logout</a>
                 </li>
             </ul>

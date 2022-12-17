@@ -101,9 +101,6 @@ const waitForSpotifySDKReady = () => {
 const waitForSpotifyAuthenticated = (player: Spotify.Player) => {
   return new Promise<string>((resolve, reject) => {
     player.on("ready", (obj) => {
-      console.log("The Web Playback SDK is ready to play music!");
-      console.log("Device ID", obj);
-
       return resolve(obj.device_id);
     });
   });

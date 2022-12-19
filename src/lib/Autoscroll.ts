@@ -10,7 +10,7 @@ const createInterval = () => {
           (element.scrollHeight / get(Progress).maxMS) * 200,
         );*/
 
-    if (AutoScroll.check && !get(Progress).paused) {
+    if (element && AutoScroll.check && !get(Progress).paused) {
       element.scrollBy({
         top: (element.scrollHeight / get(Progress).maxMS) * 200,
         behavior: "smooth",

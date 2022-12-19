@@ -2,6 +2,10 @@ import { get, writable } from "svelte/store";
 import { Progress } from "./ProgressStore";
 import { SpotifyState } from "./SpotifyStateStore";
 import { UserStore } from "./UserStore";
+import { inject } from '@vercel/analytics';
+
+// analytics
+inject();
 
 export const AppStore = createAppStore();
 

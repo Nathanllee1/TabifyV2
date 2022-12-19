@@ -54,7 +54,6 @@ export const getTab = async (
 
 // Log the tab in history
 Tab.subscribe(async (tab) => {
-  console.log(get(SpotifyState));
   await fetch(
     `/api/history?song_id=${
       get(SpotifyState).track_window.current_track.id

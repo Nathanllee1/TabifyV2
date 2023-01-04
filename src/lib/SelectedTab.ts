@@ -17,3 +17,7 @@ selectedTab.subscribe(async (selected) => {
   console.log(res);
 
 });
+
+Tab.subscribe((tab) => {
+  selectedTab.set(0);
+})

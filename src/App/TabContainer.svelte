@@ -3,15 +3,11 @@
     import { fade } from "svelte/transition";
     import { transposeStore } from "../lib/TransposeStore";
     import { selectedTab } from "../lib/SelectedTab";
-
-    $: tab = $Tab;
-    $: transposition = $transposeStore;
-    $: selected = $selectedTab;
 </script>
 
-{#if tab}
-    {#await tab then tab_obj}
-        <div class="overflow-y-auto overflow-x-hidden " id="tabContainer">
+{#if $Tab}
+    {#await $Tab then tab_obj}
+        <div class="overflow-y-auto lg:overflow-x-hidden" id="tabContainer">
             {#if tab_obj.length === 0}
                 <div class="flex justify-center align-middle">
                     <div class="text-center card max-w-lg">
@@ -40,7 +36,7 @@
                         <div class="tabs tabs-boxed">
                             {#each tab_obj as tab, i}
                                 <div
-                                    class="tab {i === selected
+                                    class="tab {i === $selectedTab
                                         ? 'tab-active'
                                         : ''}"
                                     on:click={() => selectedTab.set(i)}
@@ -55,7 +51,7 @@
                         <a
                             target="_blank"
                             class="btn btn-warning self-center"
-                            href={tab_obj[selected].url}
+                            href={tab_obj[$selectedTab].url}
                             >View on ultimate guitar</a
                         >
 
@@ -70,9 +66,11 @@
                                 +
                             </div>
                             <div
-                                class="self-center w-6 text-center font-semibold"
+                                class="self-center w-6 text-center font-semibold cursor-pointer"
+                                title="Reset"
+                                on:click={() => transposeStore.reset()}
                             >
-                                {transposition.semitones}
+                                {$transposeStore.semitones}
                             </div>
                             <div
                                 class="btn btn-outline btn-sm self-center"
@@ -82,12 +80,12 @@
                                 -
                             </div>
                         </div>
-
-                        
                     </div>
 
-                    <div class="flex justify-center mb-10">
-                        {@html tab_obj[selected].chords}
+                    <div class="flex justify-center mb-10 ">
+                        <div class="text-[10px]  md:text-[14px] overflow-auto ml-2">
+                            {@html tab_obj[$selectedTab].chords}
+                        </div>
                     </div>
                 </div>
             {/if}

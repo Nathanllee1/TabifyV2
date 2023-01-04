@@ -39,6 +39,13 @@ function createTranspose() {
         return transp;
       });
     },
+    reset: () => {
+      update((transp) => {
+        transposeTab(0 - transp.semitones);
+        transp.semitones = 0;
+        return transp
+      })
+    }
   };
 }
 

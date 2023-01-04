@@ -9,6 +9,7 @@
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </svelte:head>
 
+
 {#await AppStore.init()}
   <Loading />
 {:then value}

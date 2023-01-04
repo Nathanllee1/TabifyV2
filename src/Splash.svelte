@@ -13,17 +13,17 @@
                     jamming experience
                 </div>
                 <br />
-                <a class="btn text-white" href="/api/login"> Login with Spotify </a>
+                <a class="btn text-white bg-[#1db954]" href="/api/login"> Login with Spotify </a>
             </div>
             <img class="hidden lg:block" src="/splash.svg" alt="Guy playing guitar" />
             <div />
         </div>
 
     </div>
-    <div class="text-lg mb-4 text-gray-500 text-center">More details ↓</div>
+    <a class="text-lg mb-4 text-gray-500 text-center" href="#details">More details ↓</a>
 
 </div>
-<div class="flex flex-col min-h-screen justify-between bg-base-200 ">
+<div class="flex flex-col min-h-screen justify-between bg-base-200 " id="details">
     <div class="hero mt-10 p-9">
         <div>
             <h1 class="text-5xl">How does Tabify work?</h1>
@@ -38,7 +38,7 @@
             <br><br>
             <h1 class="text-xl">Get started today!</h1>
             <br>
-            <a class="btn mb-10 text-white" href="/api/login"> Login with Spotify </a>
+            <a class="btn mb-10 text-white bg-[#1db954]" href="/api/login"> Login with Spotify </a>
         </div>
         
     </div>
@@ -49,7 +49,6 @@
 </div>
 
 <style>
-    a {
-        background-color: #1db954;
-    }
+
+
 </style>

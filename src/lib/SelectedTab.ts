@@ -14,8 +14,6 @@ selectedTab.subscribe(async (selected) => {
   transposeStore.set({
     semitones: Number(res.length === 0 ? 0 : res[0]["TRANSPOSE"]),
   });
-  console.log(res);
-
 });
 
 Tab.subscribe((tab) => {

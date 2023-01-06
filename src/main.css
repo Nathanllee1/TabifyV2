@@ -16,3 +16,18 @@
 }
 
 html { scroll-behavior: smooth; } 
+
+/* Small screen devices (600px and above) */
+@media only screen and (min-width: 300px) {
+    ._3rlxz {
+        font-size: 11px !important;
+    }
+}
+ 
+/* Big screen devices (889px and above) */
+@media only screen and (min-width: 889px) {
+    ._3rlxz {
+        font-size: 17px !important;
+    }
+}
+ 

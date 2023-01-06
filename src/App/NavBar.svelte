@@ -37,6 +37,8 @@
 <input type="checkbox" id="help-modal" class="modal-toggle" />
 <label for="help-modal" class="modal cursor-pointer">
     <label class="modal-box relative bg-base-200" for="">
+        <label for="help-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+        <br>
         <div class="flex gap-8 flex-col">
             <HelpCard
                 q="How do you use Tabify?"

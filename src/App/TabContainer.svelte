@@ -3,10 +3,14 @@
     import { fade } from "svelte/transition";
     import { transposeStore } from "../lib/TransposeStore";
     import { selectedTab } from "../lib/SelectedTab";
+    import { fontSize } from "../lib/FontSize";
+    import Loading from "../Loading.svelte";
 </script>
 
 {#if $Tab}
-    {#await $Tab then tab_obj}
+    {#await $Tab }
+        <Loading />
+    {:then tab_obj}
         <div class="overflow-y-auto lg:overflow-x-hidden" id="tabContainer">
             {#if tab_obj.length === 0}
                 <div class="flex justify-center align-middle">
@@ -32,20 +36,22 @@
             {:else}
                 <div>
                     <br />
-                    <div class="flex justify-center">
-                        <div class="tabs tabs-boxed">
-                            {#each tab_obj as tab, i}
-                                <div
-                                    class="tab {i === $selectedTab
-                                        ? 'tab-active'
-                                        : ''}"
-                                    on:click={() => selectedTab.set(i)}
-                                >
-                                    Version {i + 1}
-                                </div>
-                            {/each}
+                    {#if tab_obj.length > 1}
+                        <div class="flex justify-center">
+                            <div class="tabs tabs-boxed">
+                                {#each tab_obj as tab, i}
+                                    <div
+                                        class="tab {i === $selectedTab
+                                            ? 'tab-active'
+                                            : ''}"
+                                        on:click={() => selectedTab.set(i)}
+                                    >
+                                        Version {i + 1}
+                                    </div>
+                                {/each}
+                            </div>
                         </div>
-                    </div>
+                    {/if}
 
                     <div class="flex justify-center gap-4 m-6 align-middle ">
                         <a
@@ -83,7 +89,9 @@
                     </div>
 
                     <div class="flex justify-center mb-10 ">
-                        <div class="text-[10px]  md:text-[14px] overflow-auto ml-2">
+                        <div
+                            class=" overflow-auto ml-2"
+                        >
                             {@html tab_obj[$selectedTab].chords}
                         </div>
                     </div>
@@ -92,3 +100,9 @@
         </div>
     {/await}
 {/if}
+
+<style>
+    :global(._3rlxz) {
+        font-size: 20px;
+    }
+</style>

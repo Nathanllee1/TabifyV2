@@ -3,7 +3,6 @@
     import { fade } from "svelte/transition";
     import { transposeStore } from "../lib/TransposeStore";
     import { selectedTab } from "../lib/SelectedTab";
-    import { fontSize } from "../lib/FontSize";
     import Loading from "../Loading.svelte";
 </script>
 

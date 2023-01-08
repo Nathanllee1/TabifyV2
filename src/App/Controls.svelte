@@ -9,7 +9,7 @@
 </script>
 
 <div
-    class=" h-30 p-2 text-neutral-content w-full mt-auto"
+    class=" h-30 p-2 w-full mt-auto"
     style="background-color:{$ThemeColors.albumColor};color:{$ThemeColors.textColor}"
     id="footer"
 >

@@ -97,7 +97,7 @@
                 </div>
 
                 <!-- Song progress -->
-                <div class="hidden gap-2 align-middle lg:flex overflow-scroll">
+                <div class="hidden gap-2 align-middle lg:flex">
                     <div class="mb-1 font-mono">
                         {getTimestamp($Progress.songMS)}
                     </div>

@@ -23,8 +23,9 @@ const getSpotifyUser = async (authToken: string) => {
     headers: myHeaders,
   };
   myHeaders.append("Content-Type", "application/json");
+  const res = await fetch("https://api.spotify.com/v1/me", requestOptions)
   const profile =
-    await (await fetch("https://api.spotify.com/v1/me", requestOptions))
+    await (res)
       .json() as SpotifyApi.CurrentUsersProfileResponse;
   return profile;
 };
@@ -82,11 +83,12 @@ export default async function handler(
       console.log(userRes);
       // if the user doesn't exist, create them
       if (userRes.length === 0) {
+        console.log('Creating userv')
         await query(
           connection,
-          "INSERT INTO USERS (USER_ID, USERNAME, PROFILE_PIC_URL)\
-          VALUES (?, ?, ?)",
-          [user.id, user.display_name, user.images[0].url],
+          "INSERT INTO USERS (USER_ID, USERNAME)\
+          VALUES (?, ?)",
+          [user.id, user.display_name],
         );
       }
 

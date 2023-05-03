@@ -5,7 +5,7 @@
 
 <div class="card bg-base-100 shadow-xl">
             
-    <div class="card-body">
+    <div class="card-body prose">
         <h2 class="card-title">
             {q}
         </h2>

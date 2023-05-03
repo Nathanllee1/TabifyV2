@@ -7,7 +7,7 @@
 </script>
 
 {#if $Tab}
-    {#await $Tab }
+    {#await $Tab}
         <Loading />
     {:then tab_obj}
         <div class="overflow-y-auto lg:overflow-x-hidden" id="tabContainer">
@@ -52,7 +52,7 @@
                         </div>
                     {/if}
 
-                    <div class="flex justify-center gap-4 m-6 align-middle ">
+                    <div class="flex justify-center gap-4 m-6 align-middle">
                         <a
                             target="_blank"
                             class="btn btn-warning self-center"
@@ -61,36 +61,38 @@
                         >
 
                         <div
-                            class="flex outline-1 outline-double outline-gray-200 rounded-lg p-3 gap-2"
+                            class="flex flex-col outline-1 outline-double outline-gray-200 rounded-lg p-3"
                         >
-                            <div
-                                class="btn btn-outline btn-sm self-center"
-                                title="Transpose Up"
-                                on:click={() => transposeStore.increase()}
-                            >
-                                +
-                            </div>
-                            <div
-                                class="self-center w-6 text-center font-semibold cursor-pointer"
-                                title="Reset"
-                                on:click={() => transposeStore.reset()}
-                            >
-                                {$transposeStore.semitones}
-                            </div>
-                            <div
-                                class="btn btn-outline btn-sm self-center"
-                                title="Transpose Down"
-                                on:click={() => transposeStore.decrease()}
-                            >
-                                -
+                            <div class="mb-1">Transpose tab</div>
+
+                            <div class="flex gap-2">
+                                <div
+                                    class="btn btn-outline btn-sm self-center"
+                                    title="Transpose Down"
+                                    on:click={() => transposeStore.decrease()}
+                                >
+                                    -
+                                </div>
+                                <div
+                                    class="self-center w-6 text-center font-semibold cursor-pointer"
+                                    title="Reset"
+                                    on:click={() => transposeStore.reset()}
+                                >
+                                    {$transposeStore.semitones}
+                                </div>
+                                <div
+                                    class="btn btn-outline btn-sm self-center"
+                                    title="Transpose Up"
+                                    on:click={() => transposeStore.increase()}
+                                >
+                                    +
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex justify-center mb-10 ">
-                        <div
-                            class=" overflow-auto ml-2"
-                        >
+                    <div class="flex justify-center mb-10">
+                        <div class=" overflow-auto ml-2">
                             {@html tab_obj[$selectedTab].chords}
                         </div>
                     </div>

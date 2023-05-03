@@ -46,5 +46,9 @@ export const AutoScroll = (() => {
         return autoScroll;
       });
     },
+    reset: () => {
+      const element = document.getElementById("tabContainer");
+      element.scrollTop = 0;
+    }
   };
 })();

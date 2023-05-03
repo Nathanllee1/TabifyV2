@@ -23,9 +23,8 @@
                 class="mt-3 p-2 shadow-2xl menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
                 <li>
-                    <!--
+                    
                     <div on:click={() => AppPage.set("profile")}>Profile</div>
-                    -->
                     <a href="/" class="text-error">Logout</a>
                 </li>
             </ul>

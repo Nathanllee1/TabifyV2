@@ -1,7 +1,11 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
     // various stores
     import { AppStore } from "../lib/AppStore";
     import { AppPage } from "./AppPage";
+    import { profile } from "../lib/Profile";
+
     import Controls from "./Controls.svelte";
     import NavBar from "./NavBar.svelte";
     import Profile from "./Profile.svelte";
@@ -9,18 +13,18 @@
 
     import Tutorial from "./Tutorial.svelte";
 
-    $: appStore = $AppStore;
-    $: appPage = $AppPage;
+    profile.init();
+
 </script>
 
 <div class="flex flex-col min-h-screen max-h-screen ">
-    {#if !appStore.canSwitch}
+    {#if !$AppStore.canSwitch}
         <Tutorial />
     {/if}
 
     <NavBar />
 
-    {#if appPage === "main"}
+    {#if $AppPage === "main"}
         <TabContainer />
     {:else}
         <Profile />

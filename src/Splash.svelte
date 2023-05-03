@@ -12,15 +12,19 @@
                     <span class="font-extrabold">fan-tab-ulous</span>
                     jamming experience
                 </div>
+                <h2 class="text-3xl mt-4">Tabify shows you the chords for the song you're listening to on Spotify!</h2>
+
                 <br />
                 <a class="btn text-white bg-[#1db954]" href="/api/login"> Login with Spotify </a>
+                
+                <div class="text-slate-500 mt-2">* Only works for Premium users, sorry :(</div>
             </div>
             <img class="hidden lg:block" src="/splash.svg" alt="Guy playing guitar" />
             <div />
         </div>
 
     </div>
-    <a class="text-lg mb-4 text-gray-500 text-center" href="#details">More details ↓</a>
+    <a class="text-2xl mb-4 text-gray-500 text-center" href="#details">More details ↓</a>
 
 </div>
 <div class="flex flex-col min-h-screen justify-between bg-base-200 " id="details">
@@ -28,7 +32,7 @@
         <div>
             <h1 class="text-5xl">How does Tabify work?</h1>
             <div class="divider"></div>
-            <h2 class="text-3xl">Tabify shows you the chords for the song you're listening to on Spotify!</h2>
+            <h2 class="text-3xl">Tabify connects to your Spotify and pulls up the music for the current song playing!</h2>
             <br>
             <h2 class="text-xl">Never google tabs again!</h2>
             <br>

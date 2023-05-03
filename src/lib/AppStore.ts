@@ -2,7 +2,7 @@ import { get, writable } from "svelte/store";
 import { Progress } from "./ProgressStore";
 import { SpotifyState } from "./SpotifyStateStore";
 import { UserStore } from "./UserStore";
-import { inject } from '@vercel/analytics';
+import { inject } from "@vercel/analytics";
 
 // analytics
 inject();
@@ -40,7 +40,7 @@ function createAppStore() {
       }
 
       // get and set the user's profile
-      UserStore.init(token)
+      UserStore.init(token);
 
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {
@@ -80,19 +80,18 @@ function createAppStore() {
 }
 
 const assignErrors = (player: Spotify.Player) => {
-    player.on("account_error", () => {
-      window.location.href = "/";
-    });
-  
-    player.on("initialization_error", () => {
-      window.location.href = "/";
-    });
-  
-    player.on("authentication_error", () => {
-      window.location.href = "/";
-    });
-  };
-  
+  player.on("account_error", () => {
+    window.location.href = "/";
+  });
+
+  player.on("initialization_error", () => {
+    window.location.href = "/";
+  });
+
+  player.on("authentication_error", () => {
+    window.location.href = "/";
+  });
+};
 
 const waitForSpotifySDKReady = () => {
   return new Promise<void>((resolve, reject) => {
@@ -110,71 +109,85 @@ const waitForSpotifyAuthenticated = (player: Spotify.Player) => {
   });
 };
 
+const spotifyRequest = async (url: string, token: string, body?: string) => {
+  const headers = new Headers();
+  headers.append("Authorization", `Bearer ${token}`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers,
+    body,
+  });
+
+  return await res.json();
+};
+
+const forceSwitch = async (deviceId: string, token: string) => {
+  await spotifyRequest(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, token)
+};
 
 const switchDevice = async (deviceId: string, token: string) => {
-    const myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${token}`,
-    );
-    myHeaders.append("Content-Type", "application/json");
-  
-    const raw = JSON.stringify({
-      "device_ids": [
-        deviceId,
-      ],
+  const myHeaders = new Headers();
+  myHeaders.append(
+    "Authorization",
+    `Bearer ${token}`,
+  );
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    "device_ids": [
+      deviceId,
+    ],
+  });
+
+  const requestOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const res = await fetch(
+    `https://api.spotify.com/v1/me/player?device_id=${deviceId}`,
+    requestOptions,
+  );
+
+  if (!res.ok) {
+    await forceSwitch(deviceId, token);
+    AppStore.update((store) => {
+      store.canSwitch = false;
+      return store;
     });
-  
-    const requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-    };
-  
-    const res = await fetch(
-      `https://api.spotify.com/v1/me/player?device_id=${deviceId}`,
-      requestOptions,
-    );
-  
-    if (!res.ok) {
+
+    throw ("Can't switch devices");
+  }
+};
+
+const waitForPlayerSwitch = async (deviceId: string) => {
+  return new Promise<void>(async (resolve, reject) => {
+    const appStore = get(AppStore);
+
+    try {
+      await switchDevice(deviceId, appStore.token);
+    } catch {
+      resolve();
+    }
+
+    appStore.player.on("player_state_changed", (state) => {
+      Progress.update((progress) => {
+        progress.songMS = state.position;
+        return progress;
+      });
+
+      SpotifyState.set({
+        ...state,
+        // get around dumb timing bug
+        duration: state.context.metadata.current_item.estimated_duration,
+      });
       AppStore.update((store) => {
-        store.canSwitch = false;
+        store.connected = true;
         return store;
       });
-  
-      throw ("Can't switch devices");
-    }
-  };
-  
-  const waitForPlayerSwitch = async (deviceId: string) => {
-    return new Promise<void>(async (resolve, reject) => {
-      const appStore = get(AppStore);
-  
-      try {
-        await switchDevice(deviceId, appStore.token);
-      } catch {
-        resolve();
-      }
-  
-      appStore.player.on("player_state_changed", (state) => {
 
-        Progress.update((progress) => {
-          progress.songMS = state.position
-          return progress
-        })
-        
-        SpotifyState.set({
-          ...state,
-          // get around dumb timing bug
-          duration: state.context.metadata.current_item.estimated_duration
-        });
-        AppStore.update((store) => {
-          store.connected = true;
-          return store;
-        });
-
-  
-        resolve();
-      });
+      resolve();
     });
-  };
+  });
+};

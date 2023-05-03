@@ -44,12 +44,14 @@
                         class="tooltip"
                         data-tip="Previous"
                         on:click={async (ev) => {
+                            // skips to the beginning and to the previous track if the progress is < 5 seconds
                             if ($Progress.songMS < 5000) {
                                 await $AppStore.player.previousTrack();
                                 return;
                             }
                             await $AppStore.player.seek(0);
                             Progress.reset();
+                            AutoScroll.reset();
                         }}
                     >
                         <Icon

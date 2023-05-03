@@ -55,8 +55,9 @@ def parse_tab_page(unparsed_html):
 
 def build_search_url(song_name, artist_name):
     """Builds the Search URL from the artist and song names."""
-    return f"https://www.ultimate-guitar.com/search.php?title={artist_name} {song_name}&page=1&type=300".replace(" ", "%20")
-
+    fixed_name = artist_name.replace("&", "%26")
+    fixed_song = song_name.replace("&", "%26")
+    return f"https://www.ultimate-guitar.com/search.php?title={fixed_name} {fixed_song}&page=1&type=300".replace(" ", "%20")
 
 def get_tab_page_urls(search_url):
     """Given search url, gets the url of the correct tab page."""
@@ -91,7 +92,8 @@ def get_tabs(song_name, artist_name):
             string: The HTML of the tab.
     """
     search_url = build_search_url(song_name, artist_name)
-    tab_page_urls = get_tab_page_urls(search_url)
+    print(search_url)
+    tab_page_urls = get_tab_page_urls(search_url)[:6] # limit to 6 songs
     results = []
     for url in tab_page_urls:
         results.append({

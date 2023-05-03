@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Connection, createConnection } from "mysql2";
-import { convertToMySQLDate, getUserFromSession, query } from "./utils";
+import { convertToMySQLDate, getUserFromSession, query } from "../utils/utils";
 
 export default async function handler(
   request: VercelRequest,

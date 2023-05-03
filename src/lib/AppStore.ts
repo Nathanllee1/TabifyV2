@@ -3,6 +3,7 @@ import { Progress } from "./ProgressStore";
 import { SpotifyState } from "./SpotifyStateStore";
 import { UserStore } from "./UserStore";
 import { inject } from "@vercel/analytics";
+import { spotifyRequest } from "./utils";
 
 // analytics
 inject();
@@ -109,20 +110,10 @@ const waitForSpotifyAuthenticated = (player: Spotify.Player) => {
   });
 };
 
-const spotifyRequest = async (url: string, token: string, body?: string) => {
-  const headers = new Headers();
-  headers.append("Authorization", `Bearer ${token}`);
-  const res = await fetch(url, {
-    method: "GET",
-    headers,
-    body,
-  });
 
-  return await res.json();
-};
 
 const forceSwitch = async (deviceId: string, token: string) => {
-  await spotifyRequest(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, token)
+  await spotifyRequest(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`)
 };
 
 const switchDevice = async (deviceId: string, token: string) => {

@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Connection, createConnection } from "mysql2";
-import { convertToMySQLDate, getUserFromSession, query } from "./utils";
 
 export default async function handler(
   request: VercelRequest,
@@ -44,7 +43,7 @@ export default async function handler(
     WHERE USERS.USER_ID = ?\
     GROUP BY SONG_ID\
     ORDER BY TIMES_PLAYED DESC\
-    LIMIT 5",
+    LIMIT 10",
       [
         userId,
       ],
@@ -59,3 +58,38 @@ export default async function handler(
   }
   return;
 }
+
+export const query = (
+  connection: Connection,
+  query: string,
+  subs: any[],
+) => {
+  return new Promise((accept, reject) => {
+    connection.query(
+      { sql: query },
+      subs,
+      function (err, results, fields) {
+        if (err) {
+          reject(err);
+        }
+        accept(results);
+      },
+    );
+  });
+};
+export const getUserFromSession = async (
+  connection: Connection,
+  session: string,
+) => {
+  return await query(
+    connection,
+"SELECT DISTINCT USER_ID \
+    FROM SESSIONS \
+    WHERE SESSION_ID = ?",
+    [session],
+  );
+};
+
+export const convertToMySQLDate = (date: Date) => {
+  return date.toISOString().slice(0, 19).replace("T", " ");
+};

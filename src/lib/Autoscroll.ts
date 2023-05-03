@@ -48,7 +48,6 @@ export const AutoScroll = (() => {
     },
     reset: () => {
       const element = document.getElementById("tabContainer");
-
       element.scrollTop = 0;
     }
   };

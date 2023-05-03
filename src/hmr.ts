@@ -3,6 +3,7 @@
 import type { Writable } from 'svelte/store';
 import { AppStore } from './lib/AppStore';
 import { CurrentTrack, SpotifyState } from './lib/SpotifyStateStore';
+import { profile } from './lib/Profile';
 
 let stores: Record<string, Writable<any>> = {};
 
@@ -13,6 +14,7 @@ export function registerStore<T>(id: string, store: Writable<T>) {
 registerStore('appstore', AppStore);
 registerStore("spotifystate", SpotifyState);
 registerStore("currentrack", CurrentTrack)
+registerStore("profile", profile)
 
 
 // preserve the store across HMR updates

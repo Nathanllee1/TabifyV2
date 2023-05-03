@@ -11,7 +11,7 @@
 <div
     class=" h-30 p-2 w-full mt-auto"
     style="background-color:{$ThemeColors.albumColor};color:{$ThemeColors.textColor}"
-    id="footer"
+
 >
     <div class="flex w-full align-middle gap-4">
         {#if $SpotifyState && $SpotifyState.track_window}

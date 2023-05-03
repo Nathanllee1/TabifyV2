@@ -38,3 +38,4 @@ SpotifyState.subscribe(async (state) => {
     updateTabCache(state.track_window.next_tracks);
   }
 });
+

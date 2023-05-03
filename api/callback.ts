@@ -28,6 +28,7 @@ const getSpotifyUser = async (authToken: string) => {
   const res = await fetch("https://api.spotify.com/v1/me", requestOptions);
   const profile = await (res)
     .json() as SpotifyApi.CurrentUsersProfileResponse;
+
   return profile;
 };
 
@@ -74,23 +75,23 @@ export default async function handler(
 
   const user = await getSpotifyUser(body.access_token);
 
-  const connection = createConnection(process.env.DATABASE_URL!);
-  const userRes = await query(
-    connection,
-    "SELECT * FROM USERS WHERE USER_ID = ?",
-    [user.id],
-  ) as string[];
-  console.log(userRes);
-  // if the user doesn't exist, create them
-  if (userRes.length === 0) {
-    console.log("Creating userv");
-    await query(
-      connection,
-"INSERT INTO USERS (USER_ID, USERNAME)\
+      const connection = createConnection(process.env.DATABASE_URL);
+      const userRes = await query(
+        connection,
+        "SELECT * FROM USERS WHERE USER_ID = ?",
+        [user.id],
+      ) as string[];
+      console.log(userRes);
+      // if the user doesn't exist, create them
+      if (userRes.length === 0) {
+        console.log('Creating userv')
+        await query(
+          connection,
+          "INSERT INTO USERS (USER_ID, USERNAME)\
           VALUES (?, ?)",
-      [user.id, user.display_name],
-    );
-  }
+          [user.id, user.display_name],
+        );
+      }
 
   // new session
   await query(

@@ -13,6 +13,7 @@
 
     import Tutorial from "./Tutorial.svelte";
 
+
     profile.init();
 
 </script>

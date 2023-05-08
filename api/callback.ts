@@ -84,7 +84,7 @@ export default async function handler(
       console.log(userRes);
       // if the user doesn't exist, create them
       if (userRes.length === 0) {
-        console.log('Creating userv')
+        console.log('Creating user')
         await query(
           connection,
           "INSERT INTO USERS (USER_ID, USERNAME)\

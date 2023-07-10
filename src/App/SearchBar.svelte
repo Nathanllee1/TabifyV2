@@ -43,6 +43,7 @@
             {/if}
             {#each results.tracks.items as track}
                 <div class=" flex justify-between gap-4">
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div
                         class="hover:bg-primary hover:text-white cursor-pointer rounded-lg flex grow mt-auto align-middle"
                         on:click={async () => {

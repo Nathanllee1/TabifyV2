@@ -15,7 +15,7 @@
 </div>
 
 <!--Popup modal-->
-<input type="checkbox" id="help-modal" class="modal-toggle" />
+<input type="checkbox" id="help-modal" class="modal-toggle" checked/>
 <label for="help-modal" class="modal cursor-pointer">
     <label class="modal-box relative bg-base-200" for="">
         <label

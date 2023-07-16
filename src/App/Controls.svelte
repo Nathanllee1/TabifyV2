@@ -6,6 +6,8 @@
     import { Progress } from "../lib/ProgressStore";
     import { AppStore } from "../lib/AppStore";
     import { AutoScroll } from "../lib/Autoscroll";
+    import HelpCard from "./HelpCard.svelte";
+    import HelpTooltip from "./HelpTooltip.svelte";
 </script>
 
 <div
@@ -135,6 +137,7 @@
                             checked ? AutoScroll.check() : AutoScroll.uncheck();
                         }}
                     />
+                    <HelpTooltip message="Scroll the tab down at the same speed as the song" bottom={false}/>
                 </label>
             </div>
         {/if}

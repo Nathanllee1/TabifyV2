@@ -1,5 +1,6 @@
 import { get, writable } from "svelte/store";
 import { AutoScroll } from "./Autoscroll";
+import { AppStore } from "./AppStore";
 
 
 

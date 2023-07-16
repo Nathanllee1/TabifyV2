@@ -12,6 +12,7 @@
     import TabContainer from "./TabContainer.svelte";
 
     import Tutorial from "./Tutorial.svelte";
+    import Reconnect from "./Reconnect.svelte";
 
 
     profile.init();
@@ -21,6 +22,10 @@
 <div class="flex flex-col min-h-screen max-h-screen ">
     {#if !$AppStore.canSwitch}
         <Tutorial />
+    {/if}
+
+    {#if !$AppStore.connected}
+        <Reconnect />
     {/if}
 
     <NavBar />

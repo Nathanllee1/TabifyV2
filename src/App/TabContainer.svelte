@@ -4,6 +4,8 @@
     import { transposeStore } from "../lib/TransposeStore";
     import { selectedTab } from "../lib/SelectedTab";
     import Loading from "../Loading.svelte";
+    import Icon from "@iconify/svelte";
+    import HelpTooltip from "./HelpTooltip.svelte";
 </script>
 
 {#if $Tab}
@@ -36,7 +38,7 @@
                 <div>
                     <br />
                     {#if tab_obj.length > 1}
-                        <div class="flex justify-center">
+                        <div class="flex justify-center gap-2">
                             <div class="tabs tabs-boxed">
                                 {#each tab_obj as tab, i}
                                     <div
@@ -49,6 +51,9 @@
                                     </div>
                                 {/each}
                             </div>
+                            <HelpTooltip
+                                message="Each version is a different user submitted tab on Ultimate Guitar. Switch between them to see which version you like the most"
+                            />
                         </div>
                     {/if}
 
@@ -63,7 +68,11 @@
                         <div
                             class="flex flex-col outline-1 outline-double outline-gray-200 rounded-lg p-3"
                         >
-                            <div class="mb-1">Transpose tab</div>
+                            <span class="flex gap-1 align-middle mb-1">
+                                <p class="self-center">Transpose tab</p>
+
+                                
+                            </span>
 
                             <div class="flex gap-2">
                                 <div

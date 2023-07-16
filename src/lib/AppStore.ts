@@ -20,6 +20,7 @@ function createAppStore() {
     state?: Spotify.PlaybackState;
     player?: Spotify.Player;
     canSwitch: boolean;
+    deviceId: string;
   }>({
     token: token,
     authenticated: false,
@@ -27,6 +28,7 @@ function createAppStore() {
     state: null,
     player: null,
     canSwitch: true,
+    deviceId: undefined
   });
 
   return ({
@@ -69,6 +71,7 @@ function createAppStore() {
       update((store) => {
         store.authenticated = true;
         store.player = player;
+        store.deviceId = deviceId;
         return store;
       });
 
@@ -116,7 +119,9 @@ const forceSwitch = async (deviceId: string, token: string) => {
   await spotifyRequest(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`)
 };
 
-const switchDevice = async (deviceId: string, token: string) => {
+export const switchDevice = async () => {
+  const token = get(AppStore).token;
+  const deviceId = get(AppStore).deviceId;
   const myHeaders = new Headers();
   myHeaders.append(
     "Authorization",
@@ -157,12 +162,30 @@ const waitForPlayerSwitch = async (deviceId: string) => {
     const appStore = get(AppStore);
 
     try {
-      await switchDevice(deviceId, appStore.token);
+      await switchDevice();
+
+      AppStore.update((store) => {
+        store.connected = true;
+        return store;
+      });
     } catch {
       resolve();
     }
 
     appStore.player.on("player_state_changed", (state) => {
+
+      // error state, probably device switching
+      if (state === null || state.context.uri === null) {
+        console.log("Tabify disconnected")
+        AppStore.update((store) => {
+          store.connected = false;
+          return store
+        })
+
+        Progress.pause();
+        return
+      }
+
       Progress.update((progress) => {
         progress.songMS = state.position;
         return progress;
@@ -173,10 +196,13 @@ const waitForPlayerSwitch = async (deviceId: string) => {
         // get around dumb timing bug
         duration: state.context.metadata.current_item.estimated_duration,
       });
+
+      
       AppStore.update((store) => {
         store.connected = true;
         return store;
       });
+    
 
       resolve();
     });

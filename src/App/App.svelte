@@ -3,16 +3,17 @@
 
     // various stores
     import { AppStore } from "../lib/AppStore";
-    import { AppPage } from "./AppPage";
+    import { AppPage } from "../lib/AppPage";
     import { profile } from "../lib/Profile";
 
     import Controls from "./Controls.svelte";
     import NavBar from "./NavBar.svelte";
-    import Profile from "./Profile.svelte";
+    import Profile from "./Profile/Profile.svelte";
     import TabContainer from "./TabContainer.svelte";
 
     import Tutorial from "./Tutorial.svelte";
     import Reconnect from "./Reconnect.svelte";
+    import Explore from "./Explore/Explore.svelte";
 
 
     profile.init();
@@ -32,8 +33,10 @@
 
     {#if $AppPage === "main"}
         <TabContainer />
-    {:else}
+    {:else if $AppPage === "profile"}
         <Profile />
+    {:else}
+        <Explore />
     {/if}
     <Controls />
 </div>

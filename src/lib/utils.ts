@@ -11,6 +11,20 @@ export const getTimestamp = (duration: number) => {
   return minute_string + ":" + seconds_string;
 };
 
+export const getArtistObjAsString = (artists: any[]) => {
+  return artists.map((artist) => artist.name).join(", ")
+}
+
+export const buildURLWithParams = (url: string, params: Record<string, string>) => {
+  const baseObj = new URL(url);
+
+  Object.keys(params).forEach(key => {
+    baseObj.searchParams.append(key, params[key])
+  })
+
+  return baseObj.toString()
+}
+
 export const getHeaders = () => {
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${get(AppStore).token}`);
@@ -29,7 +43,7 @@ export const spotifyRequest = async (url: string, method = "GET", body?: string)
 };
 
 export function clickOutside(node) {
-  
+
   const handleClick = event => {
     if (node && !node.contains(event.target) && !event.defaultPrevented) {
       node.dispatchEvent(
@@ -38,11 +52,11 @@ export function clickOutside(node) {
     }
   }
 
-	document.addEventListener('click', handleClick, true);
-  
+  document.addEventListener('click', handleClick, true);
+
   return {
     destroy() {
       document.removeEventListener('click', handleClick, true);
     }
-	}
+  }
 }

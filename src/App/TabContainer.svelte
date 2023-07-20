@@ -41,18 +41,19 @@
                         <div class="flex justify-center gap-2">
                             <div class="tabs tabs-boxed">
                                 {#each tab_obj as tab, i}
-                                    <div
+                                    <button
                                         class="tab {i === $selectedTab
                                             ? 'tab-active'
                                             : ''}"
                                         on:click={() => selectedTab.set(i)}
                                     >
                                         Version {i + 1}
-                                    </div>
+                                    </button>
                                 {/each}
                             </div>
                             <HelpTooltip
                                 message="Each version is a different user submitted tab on Ultimate Guitar. Switch between them to see which version you like the most"
+                                location="bottom"
                             />
                         </div>
                     {/if}
@@ -70,32 +71,30 @@
                         >
                             <span class="flex gap-1 align-middle mb-1">
                                 <p class="self-center">Transpose tab</p>
-
-                                
                             </span>
 
                             <div class="flex gap-2">
-                                <div
+                                <button
                                     class="btn btn-outline btn-sm self-center"
                                     title="Transpose Down"
                                     on:click={() => transposeStore.decrease()}
                                 >
                                     -
-                                </div>
-                                <div
+                                </button>
+                                <button
                                     class="self-center w-6 text-center font-semibold cursor-pointer"
                                     title="Reset"
                                     on:click={() => transposeStore.reset()}
                                 >
                                     {$transposeStore.semitones}
-                                </div>
-                                <div
+                                </button>
+                                <button
                                     class="btn btn-outline btn-sm self-center"
                                     title="Transpose Up"
                                     on:click={() => transposeStore.increase()}
                                 >
                                     +
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </div>

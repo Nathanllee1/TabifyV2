@@ -4,6 +4,7 @@ import { SpotifyState } from "./SpotifyStateStore";
 import { UserStore } from "./UserStore";
 import { inject } from "@vercel/analytics";
 import { spotifyRequest } from "./utils";
+import { yourExploreStore } from "../App/Explore/Explore";
 
 // analytics
 inject();
@@ -44,6 +45,8 @@ function createAppStore() {
 
       // get and set the user's profile
       UserStore.init(token);
+
+      yourExploreStore.getPlaylists()
 
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {

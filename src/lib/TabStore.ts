@@ -29,7 +29,7 @@ export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
 export const getTab = async (
   name: string,
   artist: string,
-  song: Spotify.Track,
+  song: Spotify.Track | SpotifyApi.TrackObjectFull,
 ): Promise<TabData[]> => {
   if (get(TabCache)[song.id]) {
     return (get(TabCache)[song.id]);

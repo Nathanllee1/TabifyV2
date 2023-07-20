@@ -1,11 +1,11 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Loading from "../Loading.svelte";
+    import Loading from "../../Loading.svelte";
     import { onMount } from "svelte";
     import { fade, fly } from "svelte/transition";
-    import { AppPage } from "./AppPage";
+    import { AppPage } from "../../lib/AppPage";
     import Song from "./Song.svelte";
-    import { profile } from "../lib/Profile";
+    import { profile } from "../../lib/Profile";
 </script>
 
 <div class="flex justify-center p-8 overflow-y-auto">
@@ -13,7 +13,7 @@
         <div class="w-5/6 max-w-screen-sm align-middle flex-1">
             <div class="flex mb-9 justify-between">
                 <div class="text-5xl">Profile</div>
-                <div
+                <button
                     class="btn btn-circle btn-ghost cursor-pointer self-center"
                     on:click={() => {
                         AppPage.set("main");
@@ -23,7 +23,7 @@
                         icon="ant-design:close-outlined"
                         style="font-size:25px;"
                     />
-                </div>
+                </button>
             </div>
 
             <div class="mb-14">

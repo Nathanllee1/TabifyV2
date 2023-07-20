@@ -23,7 +23,7 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  var scope = "streaming user-read-email user-read-private";
+  var scope = "streaming user-read-email user-read-private user-top-read";
   var state = generateRandomString(16);
 
   var auth_query_parameters = new URLSearchParams({

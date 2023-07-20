@@ -1,7 +1,7 @@
 <script lang="ts">
     import { UserStore } from "../lib/UserStore";
     import { get } from "svelte/store";
-    import { AppPage } from "./AppPage";
+    import { AppPage } from "../lib/AppPage";
     import { clickOutside } from "../lib/utils";
 
     let active = false;
@@ -9,7 +9,7 @@
 
 {#if get(UserStore).profile}
     <div class="" use:clickOutside on:click_outside={() => (active = false)}>
-        <div
+        <button
             tabindex="0"
             class="btn btn-ghost btn-circle avatar ml-5 mt-2"
             on:click={() => (active = !active)}
@@ -20,7 +20,7 @@
                     alt="profile"
                 />
             </div>
-        </div>
+        </button>
         <!-- Dropdown content -->
         {#if active}
             <ul

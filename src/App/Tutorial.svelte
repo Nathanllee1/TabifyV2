@@ -21,7 +21,7 @@
         <div>
             If Tabify doesn't show up or disappears after clicking, exit Spotify
             and reload Tabify. If that doesn't work, wait a bit
-        </div>
+          </div>
         -->
     </div>
 </div>

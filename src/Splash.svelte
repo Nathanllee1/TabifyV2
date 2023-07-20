@@ -24,7 +24,7 @@
         </div>
 
     </div>
-    <a class="text-2xl mb-4 text-gray-500 text-center" href="#details">More details ↓</a>
+    <a class="text-2xl mb-4 text-gray-500 text-center animate-bounce" href="#details">More details ↓</a>
 
 </div>
 <div class="flex flex-col min-h-screen justify-between bg-base-200 " id="details">

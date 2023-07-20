@@ -1,12 +1,12 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import { getTimestamp } from "../lib/utils";
+    import { getArtistObjAsString, getTimestamp } from "../lib/utils";
     import { SpotifyState } from "../lib/SpotifyStateStore";
     import { ThemeColors } from "../lib/ThemeStore";
     import { Progress } from "../lib/ProgressStore";
     import { AppStore } from "../lib/AppStore";
     import { AutoScroll } from "../lib/Autoscroll";
-    import HelpCard from "./HelpCard.svelte";
+    import HelpCard from "./Help/HelpCard.svelte";
     import HelpTooltip from "./HelpTooltip.svelte";
 </script>
 
@@ -28,20 +28,16 @@
             </div>
 
             <div class="lg:basis-1/4 basis-[45%] self-center">
-                <div class="text-lg font-bold">
+                <a class="text-lg font-bold hover:link" href={$SpotifyState.track_window.current_track.uri} target="_blank">
                     {$SpotifyState.track_window.current_track.name}
-                </div>
+                </a>
                 <div>
-                    {#each $SpotifyState.track_window.current_track.artists
-                        .map((artist) => artist.name)
-                        .join(", ") as artist}
-                        {artist}
-                    {/each}
+                    {getArtistObjAsString( $SpotifyState.track_window.current_track.artists)}
                 </div>
             </div>
 
             <div class="lg:basis-2/4 basis-[10%] self-center">
-                <div class="flex justify-center mt-3">
+                <div class="flex justify-center align-middle mt-3">
                     <div
                         class="tooltip"
                         data-tip="Previous"
@@ -65,6 +61,7 @@
 
                     <!-- Controls -->
                     <div
+                        class="tooltip"
                         on:click={(ev) => {
                             $AppStore.player.togglePlay();
                         }}
@@ -137,9 +134,10 @@
                             checked ? AutoScroll.check() : AutoScroll.uncheck();
                         }}
                     />
-                    <HelpTooltip message="Scroll the tab down at the same speed as the song" bottom={false}/>
+                    <HelpTooltip message="Scroll the tab down at the same speed as the song" location={"left"}/>
                 </label>
             </div>
         {/if}
     </div>
 </div>
+ 

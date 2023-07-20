@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { clickOutside, getHeaders, spotifyRequest } from "../lib/utils";
+    import { buildURLWithParams, clickOutside, getHeaders, spotifyRequest } from "../lib/utils";
     import HelpTooltip from "./HelpTooltip.svelte";
 
     let query = "";
@@ -11,13 +11,14 @@
             return;
         }
         active = true;
+    
+        const search = buildURLWithParams("https://api.spotify.com/v1/search", {
+            "q": encodeURIComponent(query),
+            "type": "track",
+            "limit": "10"
+        })
 
-        const search = new URL("https://api.spotify.com/v1/search");
-        search.searchParams.append("q", encodeURIComponent(query));
-        search.searchParams.append("type", "track");
-        search.searchParams.append("limit", "10");
-
-        results = await spotifyRequest(search.toString(), "GET", undefined);
+        results = await spotifyRequest(search, "GET", undefined);
     }
 </script>
 
@@ -34,7 +35,7 @@
         {#if active && results && results.tracks.items}
             <!-- @ts-ignore -->
             <div
-                class="absolute top-16 bg-white shadow-xl z-10 rounded-xl border-[1px] p-4 max-w-md overflow-y-scroll max-h-96"
+                class="absolute top-16 bg-base-100  shadow-xl z-10 rounded-xl border-[1px] p-4 max-w-md overflow-y-scroll max-h-96"
                 use:clickOutside
                 on:click_outside={() => (active = false)}
             >
@@ -83,7 +84,7 @@
                             </div>
                         </div>
     
-                        <div
+                        <button
                             class="btn btn-outline btn-sm self-center"
                             on:click={async () => {
                                 const headers = getHeaders();
@@ -100,12 +101,15 @@
                             }}
                         >
                             Queue
-                        </div>
+                        </button>
                     </div>
                 {/each}
             </div>
         {/if}
     </div>
-    <HelpTooltip message="Quickly play and queue songs" />
+    <div class="hidden lg:block">
+        <HelpTooltip message="Quickly play and queue songs" />
+
+    </div>
     
 </div>

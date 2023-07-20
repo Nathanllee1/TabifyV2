@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { spotifyRequest } from "../lib/utils";
+    import { spotifyRequest } from "../../lib/utils";
     import { onMount } from "svelte";
 
     export let songId;

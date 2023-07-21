@@ -21,9 +21,15 @@
     });
 </script>
 
-<div class={`${trackObj.availableOnTabify ? "" : "grayscale opacity-40 backdrop-brightness-50"}`}>
-    <button 
-        class={`card card-compact border-2  rounded-lg w-[250px] bg-base transition ease-in-out delay-200 hover:scale-105 h-full`}
+<div
+    class={`${
+        trackObj.availableOnTabify
+            ? ""
+            : "grayscale opacity-40 backdrop-brightness-50"
+    }`}
+>
+    <button
+        class="card card-compact border-2 rounded-lg w-72 bg-base transition ease-in-out delay-200 hover:scale-105 h-full"
         style={`border-color: ${borderColor}`}
         on:click={async () => {
             const headers = getHeaders();
@@ -42,17 +48,19 @@
             <img
                 src={track.album.images[0].url}
                 alt={track.name}
-                width="250px"
+                width="300px"
             />
         </figure>
-        <div class="card-body">
-            {#if trackObj.availableOnTabify}
-                <div class="badge badge-primary">Available on Tabify</div>
-            {:else}
-                <div class="badge badge-ghost">Unavailable on Tabify</div>
-            {/if}
-            <div class="card-title font-bold">{track.name}</div>
-            <div>{getArtistObjAsString(track.artists)}</div>
+        <div class="w-full justify-start text-start p-4">
+            <div class="w-full">
+                {#if trackObj.availableOnTabify}
+                    <div class="badge badge-primary">Available on Tabify</div>
+                {:else}
+                    <div class="badge badge-ghost">Unavailable on Tabify</div>
+                {/if}
+                <div class="card-title font-bold mt-2">{track.name}</div>
+                <div>{getArtistObjAsString(track.artists)}</div>
+            </div>
         </div>
     </button>
 </div>

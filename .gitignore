@@ -4,3 +4,5 @@
 .DS_Store
 .vercel
 .env
+# Sentry Auth Token
+.env.sentry-build-plugin

@@ -1,9 +1,20 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import HelpCard from "./HelpCard.svelte";
+
+    let checked = false;
+
+    onMount(() => {
+        if (! localStorage.getItem("usedTabify")) {
+            checked = true
+
+            localStorage.setItem("usedTabify", "true")
+        }
+    })
 </script>
 
 <!--Popup modal-->
-<input type="checkbox" id="help-modal" class="modal-toggle" checked />
+<input type="checkbox" id="help-modal" class="modal-toggle" {checked} />
 <label for="help-modal" class="modal cursor-pointer">
     <label class="modal-box relative bg-base-200" for="">
         <label

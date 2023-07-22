@@ -14,12 +14,6 @@
             class="btn btn-ghost btn-circle avatar ml-5 mt-2"
             on:click={() => (active = !active)}
         >
-            <div class="w-12 rounded-full">
-                <img
-                    src={get(UserStore)?.profile.images[0].url}
-                    alt="profile"
-                />
-            </div>
         </button>
         <!-- Dropdown content -->
         {#if active}

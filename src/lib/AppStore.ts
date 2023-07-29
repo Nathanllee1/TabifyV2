@@ -92,15 +92,17 @@ const assignErrors = (player: Spotify.Player) => {
   });
 
   player.on("initialization_error", () => {
-    window.location.href = "/";
+    window.location.href = `/?message=${encodeURIComponent("Token expired")}`;
   });
 
   player.on("authentication_error", () => {
-    window.location.href = "/";
+    window.location.href = `/?message=${encodeURIComponent("Make sure you have Spotify premium")}`;
+
   });
 };
 
 const waitForSpotifySDKReady = () => {
+
   return new Promise<void>((resolve, reject) => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       return resolve();
@@ -176,7 +178,6 @@ const waitForPlayerSwitch = async (deviceId: string) => {
     }
 
     appStore.player.on("player_state_changed", (state) => {
-
       // error state, probably device switching
       if (state === null || state.context.uri === null) {
         console.log("Tabify disconnected")

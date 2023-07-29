@@ -35,7 +35,7 @@
         {#if active && results && results.tracks.items}
             <!-- @ts-ignore -->
             <div
-                class="absolute top-16 bg-base-100  shadow-xl z-10 rounded-xl border-[1px] p-4 max-w-md overflow-y-scroll max-h-96"
+                class="absolute top-16 bg-base-100  shadow-xl z-10 rounded-xl p-4 max-w-md overflow-y-scroll max-h-96 mt-4"
                 use:clickOutside
                 on:click_outside={() => (active = false)}
             >
@@ -55,6 +55,7 @@
                                         method: "PUT",
                                         body: JSON.stringify({
                                             uris: [track.uri],
+                                            // context_uri: [track.uri]
                                         }),
                                         headers,
                                     }

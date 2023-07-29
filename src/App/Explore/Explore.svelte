@@ -1,9 +1,6 @@
 <script lang="ts">
     import { yourExploreStore } from "./Explore";
     import Content from "./Content.svelte";
-    import Skeleton from "svelte-skeleton";
-
-    console.log($yourExploreStore);
 </script>
 
 <div class="flex justify-center overflow-y-auto p-6">

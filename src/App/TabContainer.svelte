@@ -1,11 +1,20 @@
 <script lang="ts">
     import { Tab } from "../lib/TabStore";
-    import { fade } from "svelte/transition";
     import { transposeStore } from "../lib/TransposeStore";
     import { selectedTab } from "../lib/SelectedTab";
     import Loading from "../Loading.svelte";
-    import Icon from "@iconify/svelte";
     import HelpTooltip from "./HelpTooltip.svelte";
+    import { SpotifyState } from "../lib/SpotifyStateStore";
+    import { get } from "svelte/store";
+
+    // Log the tab in history
+    Tab.subscribe(async (tab) => {
+        await fetch(
+            `/api/history?song_id=${
+                get(SpotifyState).track_window.current_track.id
+            }&tab_returned=${(await tab).length === 0 ? "f" : "t"}`
+        );
+    });
 </script>
 
 {#if $Tab}

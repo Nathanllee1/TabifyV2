@@ -8,6 +8,7 @@
     import { AutoScroll } from "../lib/Autoscroll";
     import HelpCard from "./Help/HelpCard.svelte";
     import HelpTooltip from "./HelpTooltip.svelte";
+    import { AppPage } from "../lib/AppPage";
 </script>
 
 <div
@@ -28,9 +29,9 @@
             </div>
 
             <div class="lg:basis-1/4 basis-[45%] self-center">
-                <a class="text-lg font-bold hover:link" href={$SpotifyState.track_window.current_track.uri} target="_blank">
+                <button class="text-lg font-bold hover:link text-ellipsis h-10" on:click={() => AppPage.set("main")}>
                     {$SpotifyState.track_window.current_track.name}
-                </a>
+                </button>
                 <div>
                     {getArtistObjAsString( $SpotifyState.track_window.current_track.artists)}
                 </div>
@@ -61,7 +62,6 @@
 
                     <!-- Controls -->
                     <div
-                        class="tooltip"
                         on:click={(ev) => {
                             $AppStore.player.togglePlay();
                         }}

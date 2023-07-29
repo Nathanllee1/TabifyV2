@@ -8,13 +8,28 @@
 </script>
 
 {#if get(UserStore).profile}
-    <div class="" use:clickOutside on:click_outside={() => (active = false)}>
+    <div
+        class="z-10"
+        use:clickOutside
+        on:click_outside={() => (active = false)}
+    >
         <button
             tabindex="0"
             class="btn btn-ghost btn-circle avatar ml-5 mt-2"
             on:click={() => (active = !active)}
         >
+            {#if get(UserStore)?.profile.images[0]}
+                <div class="w-12 rounded-full">
+                    <img
+                        src={get(UserStore)?.profile.images[0].url}
+                        alt="profile"
+                    />
+                </div>
+            {:else}
+                <div class="w-12 rounded-full" />
+            {/if}
         </button>
+
         <!-- Dropdown content -->
         {#if active}
             <ul

@@ -5,5 +5,5 @@
     export let href;
 </script>
 
-<button class={`hover:link ${$AppPage === href ? "link" : ""}`} on:click={() => AppPage.set(href)}>{linkName}</button>
+<button class={`hover:link self-center ${$AppPage === href ? "font-bold badge badge-secondary" : ""}`} on:click={() => AppPage.set(href)}>{linkName}</button>
 

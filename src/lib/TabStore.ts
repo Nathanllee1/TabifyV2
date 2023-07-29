@@ -51,13 +51,3 @@ export const getTab = async (
   } catch {
   }
 };
-
-// Log the tab in history
-Tab.subscribe(async (tab) => {
-  await fetch(
-    `/api/history?song_id=${
-      get(SpotifyState).track_window.current_track.id
-    }&tab_returned=${(await tab).length === 0 ? "f" : "t"}`,
-  );
-});
-

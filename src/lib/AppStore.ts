@@ -5,14 +5,37 @@ import { UserStore } from "./UserStore";
 import { inject } from "@vercel/analytics";
 import { spotifyRequest } from "./utils";
 import { yourExploreStore } from "../App/Explore/Explore";
+import { initializeSentry } from "./Sentry";
 
 // analytics
 inject();
 
 export const AppStore = createAppStore();
 
+function getToken() {
+  let token = new URLSearchParams(window.location.search).get("token")
+
+  if (token) {
+    localStorage.setItem("token", token)
+    localStorage.setItem("tokenExpiresIn", ((new Date()).getTime() + 1000 * 60 * 60).toString())
+    window.location.assign("/")
+
+  }
+
+  token = localStorage.getItem("token")
+  const expiresIn = parseInt(localStorage.getItem("tokenExpiresIn"))
+
+  setTimeout(() => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("tokenExpiresIn")
+    window.location.assign("/api/login")
+  }, expiresIn - new Date().getTime() )
+
+  return token
+}
+
 function createAppStore() {
-  const token = new URLSearchParams(window.location.search).get("token");
+  const token = getToken();
 
   const { subscribe, update, set } = writable<{
     token: string;
@@ -42,6 +65,8 @@ function createAppStore() {
       if (!store.token) {
         return;
       }
+
+      initializeSentry()
 
       // get and set the user's profile
       UserStore.init(token);
@@ -201,12 +226,12 @@ const waitForPlayerSwitch = async (deviceId: string) => {
         duration: state.context.metadata.current_item.estimated_duration,
       });
 
-      
+
       AppStore.update((store) => {
         store.connected = true;
         return store;
       });
-    
+
 
       resolve();
     });

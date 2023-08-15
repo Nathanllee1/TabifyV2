@@ -8,6 +8,7 @@
 
     async function searchSpotify() {
         if (query.length < 2) {
+            active = false;
             return;
         }
         active = true;

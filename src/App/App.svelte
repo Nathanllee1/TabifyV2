@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-
     // various stores
     import { AppStore } from "../lib/AppStore";
     import { AppPage } from "../lib/AppPage";
@@ -14,7 +12,6 @@
     import Tutorial from "./Tutorial.svelte";
     import Reconnect from "./Reconnect.svelte";
     import Explore from "./Explore/Explore.svelte";
-
 
     profile.init();
 
@@ -30,7 +27,7 @@
     {/if}
 
     <NavBar />
-
+    
     {#if $AppPage === "main"}
         <TabContainer />
     {:else if $AppPage === "profile"}
@@ -38,5 +35,6 @@
     {:else}
         <Explore />
     {/if}
+        
     <Controls />
 </div>

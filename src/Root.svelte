@@ -19,6 +19,3 @@
     <Splash />
   {/if}
 {/await}
-
-<style lang="postcss">
-</style>

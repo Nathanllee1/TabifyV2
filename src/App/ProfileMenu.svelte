@@ -45,7 +45,11 @@
                     >
                         Profile
                     </div>
-                    <a href="/" class="text-error">Logout</a>
+                    <button on:click={() => {
+                        localStorage.removeItem("token")
+                        localStorage.removeItem("tokenExpiresIn")
+                        window.location.assign("/")
+                    }} class="text-error">Logout</button>
                 </li>
             </ul>
         {/if}

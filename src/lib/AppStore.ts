@@ -24,6 +24,11 @@ function getToken() {
 
   token = localStorage.getItem("token")
   const expiresIn = parseInt(localStorage.getItem("tokenExpiresIn"))
+  
+  console.log(token)
+  if (!token) {
+    return undefined
+  }
 
   setTimeout(() => {
     localStorage.removeItem("token")
@@ -223,7 +228,7 @@ const waitForPlayerSwitch = async (deviceId: string) => {
       SpotifyState.set({
         ...state,
         // get around dumb timing bug
-        duration: state.context.metadata.current_item.estimated_duration,
+        // duration: state.context.metadata.current_item.estimated_duration,
       });
 
 

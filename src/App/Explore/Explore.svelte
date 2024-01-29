@@ -5,6 +5,7 @@
 
 <div class="flex justify-center overflow-y-auto p-6">
     <div class=" p-4 ">
+        <div class="text-4xl mb-4">Your Top Songs</div>
         <div class="flex gap-8 flex-wrap pb-4 justify-center">
             {#if $yourExploreStore && $yourExploreStore.length !== 0}
                 {#each $yourExploreStore as playlist}

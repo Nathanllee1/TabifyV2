@@ -106,18 +106,13 @@ def get_tabs(song_name, artist_name):
     return results
 
 
-class handler(BaseHTTPRequestHandler):
+def lambda_handler(event, context):
+    '''
+    arguments = parse_qs(urlparse(self.path).query)
 
-    def do_GET(self):
+    artist_name = arguments["artist_name"][0]
+    song_name = arguments["song_name"][0]
 
-        arguments = parse_qs(urlparse(self.path).query)
-
-        artist_name = arguments["artist_name"][0]
-        song_name = arguments["song_name"][0]
-
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-
-        self.wfile.write(json.dumps(get_tabs(song_name, artist_name)).encode())
-        return
+    return get_tabs(song_name, artist_name)
+    '''
+    return "Hello world"

@@ -134,7 +134,7 @@
                             checked ? AutoScroll.check() : AutoScroll.uncheck();
                         }}
                     />
-                    <HelpTooltip message="Scroll the tab down at the same speed as the song" location={"left"}/>
+                    <!--<HelpTooltip message="Scroll the tab down at the same speed as the song" location={"left"}/>-->
                 </label>
             </div>
         {/if}

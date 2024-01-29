@@ -1,8 +1,11 @@
 <script lang="ts">
+    import { Tab } from "../lib/TabStore";
     import { AppPage } from "../lib/AppPage";
 
     export let linkName;
     export let href;
+
+
 </script>
 
 <button

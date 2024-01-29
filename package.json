@@ -23,7 +23,7 @@
     "babel-jest": "^26.6.3",
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.12",
-    "daisyui": "^2.24.0",
+    "daisyui": "^4.6.0",
     "fast-average-color": "^9.1.1",
     "jest": "^26.6.3",
     "postcss": "^8.4.6",

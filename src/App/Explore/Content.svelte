@@ -2,7 +2,7 @@
     import { FastAverageColor } from "fast-average-color";
     import { getArtistObjAsString, getHeaders } from "../../lib/utils";
     import { onMount } from "svelte";
-    import { AppPage } from "../../lib/AppPage";
+    import { push } from "svelte-spa-router";
 
     export let trackObj: {
         track: SpotifyApi.TrackObjectFull;
@@ -42,7 +42,7 @@
                 headers,
             });
 
-            AppPage.set("main");
+            push("/jam")
         }}
     >
         <figure>

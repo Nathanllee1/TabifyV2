@@ -1,16 +1,18 @@
 <script lang="ts">
     import { Tab } from "../lib/TabStore";
-    import { AppPage } from "../lib/AppPage";
+    // @ts-ignore
+    import {location} from 'svelte-spa-router'
 
     export let linkName;
     export let href;
 
+    console.log($location)
 
 </script>
 
-<button
+<a
     class={`hover:link self-center ${
-        $AppPage === href ? "font-bold badge badge-secondary" : ""
+        $location === `/${href}` ? "font-bold badge badge-secondary" : ""
     }`}
-    on:click={() => AppPage.set(href)}>{linkName}</button
+    href={"/#/" + href}>{linkName}</a
 >

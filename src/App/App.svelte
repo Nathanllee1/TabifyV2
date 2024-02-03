@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Router from "svelte-spa-router";
+
     // various stores
     import { AppStore } from "../lib/AppStore";
     import { AppPage } from "../lib/AppPage";
@@ -12,12 +14,15 @@
     import Tutorial from "./Tutorial.svelte";
     import Reconnect from "./Reconnect.svelte";
     import Explore from "./Explore/Explore.svelte";
-
+    export const routes = {
+        "/": Explore,
+        "/jam": TabContainer,
+        "/profile": Profile,
+    };
     profile.init();
-
 </script>
 
-<div class="flex flex-col min-h-screen max-h-screen ">
+<div class="flex flex-col min-h-screen max-h-screen">
     {#if !$AppStore.canSwitch}
         <Tutorial />
     {/if}
@@ -27,14 +32,9 @@
     {/if}
 
     <NavBar />
-    
-    {#if $AppPage === "main"}
-        <TabContainer />
-    {:else if $AppPage === "profile"}
-        <Profile />
-    {:else}
-        <Explore />
-    {/if}
-        
+
+
+    <Router {routes} />
+
     <Controls />
 </div>

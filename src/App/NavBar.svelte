@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { AppPage } from "../lib/AppPage";
     import { Tab } from "../lib/TabStore";
     import HelpCard from "./Help/HelpCard.svelte";
     import HelpModal from "./Help/HelpModal.svelte";
     import Link from "./Link.svelte";
     import ProfileMenu from "./ProfileMenu.svelte";
     import SearchBar from "./SearchBar.svelte";
+    // @ts-ignore
+    import { location } from "svelte-spa-router";
+
     let tabs = [];
 
     Tab.subscribe(async (tab) => {
@@ -17,20 +19,23 @@
     <div>
         <div class="text-xl ml-3 font-bold pr-5 hidden lg:block">Tabify</div>
         <div class="flex gap-4">
-            <Link linkName="Explore" href="explore" />
+            <Link linkName="Explore" href="" />
+            <!--<Link linkName="Jam" href="jam" />-->
             <div class="indicator">
-                <button
+                <a
                     class={`hover:link self-center pr-2 ${
-                        $AppPage === "main"
+                        $location === `/jam`
                             ? "font-bold badge badge-secondary"
                             : ""
-                    } ${tabs.length !== 0 ? "font-bold" : ""}`}
-                    on:click={() => AppPage.set("main")}>Jam</button
+                    }`}
+                    href={"/#/jam"}>Jam</a
                 >
-                {#if tabs.length !== 0}
-                <span class="indicator-item badge badge-xs badge-primary animate-pulse"></span> 
-                {/if}
 
+                {#if tabs.length !== 0}
+                    <span
+                        class="indicator-item badge badge-xs badge-primary animate-pulse"
+                    ></span>
+                {/if}
             </div>
         </div>
     </div>

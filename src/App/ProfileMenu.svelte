@@ -1,8 +1,8 @@
 <script lang="ts">
     import { UserStore } from "../lib/UserStore";
     import { get } from "svelte/store";
-    import { AppPage } from "../lib/AppPage";
     import { clickOutside } from "../lib/utils";
+    import { push } from "svelte-spa-router";
 
     let active = false;
 </script>
@@ -39,7 +39,7 @@
                 <li>
                     <div
                         on:click={() => {
-                            AppPage.set("profile");
+                            push("/profile");
                             active = false;
                         }}
                     >

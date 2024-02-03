@@ -3,9 +3,9 @@
     import Loading from "../../Loading.svelte";
     import { onMount } from "svelte";
     import { fade, fly } from "svelte/transition";
-    import { AppPage } from "../../lib/AppPage";
     import Song from "./Song.svelte";
     import { profile } from "../../lib/Profile";
+    import { push } from "svelte-spa-router";
 </script>
 
 <div class="flex justify-center p-8 overflow-y-auto">
@@ -16,7 +16,7 @@
                 <button
                     class="btn btn-circle btn-ghost cursor-pointer self-center"
                     on:click={() => {
-                        AppPage.set("main");
+                        push("/jam")
                     }}
                 >
                     <Icon

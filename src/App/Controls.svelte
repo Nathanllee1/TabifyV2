@@ -8,7 +8,7 @@
     import { AutoScroll } from "../lib/Autoscroll";
     import HelpCard from "./Help/HelpCard.svelte";
     import HelpTooltip from "./HelpTooltip.svelte";
-    import { AppPage } from "../lib/AppPage";
+    import { push } from "svelte-spa-router";
 </script>
 
 <div
@@ -29,7 +29,7 @@
             </div>
 
             <div class="lg:basis-1/4 basis-[45%] self-center">
-                <button class="text-lg font-bold hover:link text-ellipsis h-10" on:click={() => AppPage.set("main")}>
+                <button class="text-lg font-bold hover:link text-ellipsis h-10" on:click={() => push("/jam")}>
                     {$SpotifyState.track_window.current_track.name}
                 </button>
                 <div>

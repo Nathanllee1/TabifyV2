@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { Tab } from "../lib/TabStore";
-    import { transposeStore } from "../lib/TransposeStore";
-    import { selectedTab } from "../lib/SelectedTab";
-    import Loading from "../Loading.svelte";
-    import HelpTooltip from "./HelpTooltip.svelte";
-    import { SpotifyState } from "../lib/SpotifyStateStore";
+    import { Tab } from "../../lib/TabStore";
+    import { transposeStore } from "../../lib/TransposeStore";
+    import { selectedTab } from "../../lib/SelectedTab";
+    import Loading from "../../Loading.svelte";
+    import HelpTooltip from "../HelpTooltip.svelte";
+    import { SpotifyState } from "../../lib/SpotifyStateStore";
     import { get } from "svelte/store";
+    import Recommender from "../Recommender/Recommender.svelte";
 
     // Log the tab in history
     Tab.subscribe(async (tab) => {
@@ -17,6 +18,7 @@
     });
 </script>
 
+<Recommender />
 {#if $Tab}
     {#await $Tab}
         <Loading />

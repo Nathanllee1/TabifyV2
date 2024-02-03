@@ -29,7 +29,7 @@ export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
 export const getTab = async (
   name: string,
   artist: string,
-  song: Spotify.Track | SpotifyApi.TrackObjectFull,
+  song: Spotify.Track | SpotifyApi.TrackObjectFull | SpotifyApi.RecommendationTrackObject,
 ): Promise<TabData[]> => {
   if (get(TabCache)[song.id]) {
     return (get(TabCache)[song.id]);
@@ -40,7 +40,7 @@ export const getTab = async (
 
   try {
     const res = await fetch(
-      `/api?song_name=${encodeURIComponent(formattedName)}&artist_name=${
+      `https://tabify.app/api?song_name=${encodeURIComponent(formattedName)}&artist_name=${
         encodeURIComponent(
           artist,
         )

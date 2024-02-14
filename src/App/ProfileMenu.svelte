@@ -9,7 +9,7 @@
 
 {#if get(UserStore).profile}
     <div
-        class="z-10"
+        class="z-50"
         use:clickOutside
         on:click_outside={() => (active = false)}
     >

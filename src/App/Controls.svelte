@@ -18,7 +18,7 @@
 >
     <div class="flex w-full align-middle gap-4">
         {#if $SpotifyState && $SpotifyState.track_window}
-            <div class="flex-none self-center">
+            <div class="flex-none self-center hidden lg:block">
                 <img
                     class=""
                     crossorigin="anonymous"
@@ -28,8 +28,8 @@
                 />
             </div>
 
-            <div class="lg:basis-1/4 basis-[45%] self-center">
-                <button class="text-lg font-bold hover:link text-ellipsis h-10" on:click={() => push("/jam")}>
+            <div class="lg:basis-1/4 basis-[50%] self-center">
+                <button class="block text-lg font-bold hover:link text-ellipsis h-10" on:click={() => push("/jam")}>
                     {$SpotifyState.track_window.current_track.name}
                 </button>
                 <div>
@@ -39,7 +39,7 @@
 
             <div class="lg:basis-2/4 basis-[10%] self-center">
                 <div class="flex justify-center align-middle mt-3">
-                    <div
+                    <button
                         class="tooltip"
                         data-tip="Previous"
                         on:click={async (ev) => {
@@ -58,10 +58,10 @@
                             icon="bi:skip-start"
                             style="font-size:25px;"
                         />
-                    </div>
+                    </button>
 
                     <!-- Controls -->
-                    <div
+                    <button
                         on:click={(ev) => {
                             $AppStore.player.togglePlay();
                         }}
@@ -83,8 +83,8 @@
                                 />
                             </div>
                         {/if}
-                    </div>
-                    <div
+                    </button>
+                    <button
                         class="tooltip"
                         data-tip="Next"
                         style="font-size:25px;"
@@ -94,7 +94,7 @@
                         }}
                     >
                         <Icon class="cursor-pointer" icon="bi:skip-end" />
-                    </div>
+                    </button>
                 </div>
 
                 <!-- Song progress -->
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="basis-[45%] lg:basis-1/4 place-self-center">
+            <div class="basis-[10%] lg:basis-1/4 place-self-center">
                 <label class="label cursor-pointer justify-center gap-2 mt-5 flex-col lg:flex-row">
                     <span class="">Autoscroll</span>
                     <input

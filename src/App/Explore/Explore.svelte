@@ -14,7 +14,7 @@
             {:else}
                 {#each Array(12).fill(0) as item}
                     <div
-                        class="animate-pulse w-[350px] h-[320px] bg-base-200 rounded-lg"
+                        class="animate-pulse w-[288px] h-[436px] bg-base-200 rounded-lg"
                     />
                 {/each}
             {/if}

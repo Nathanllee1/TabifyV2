@@ -1,6 +1,7 @@
 import { get, writable } from "svelte/store";
 import { AutoScroll } from "./Autoscroll";
 import { AppStore } from "./AppStore";
+import { recommendationOpen } from "../App/Recommender/RecommendationOpen";
 
 
 
@@ -22,16 +23,22 @@ export const Progress = (() => {
         clearInterval(progress.interval);
         progress.interval = null;
         progress.paused = true;
-        
+
+        recommendationOpen.set(true)
+
         return progress;
       });
     },
     play: () => {
       update((progress) => {
+
+        recommendationOpen.set(false)
+
         if (progress.paused) {
           progress.interval = setInterval(() => {
             update((progress) => {
               progress.songMS += 500;
+
               return progress;
             });
           }, 500);

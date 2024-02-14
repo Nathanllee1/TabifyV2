@@ -16,26 +16,28 @@ SpotifyState.subscribe(async (state) => {
   }
 
   // only request the song if it's new
-  if (eventTrack?.id !== currentTrack?.id) {
-    CurrentTrack.set(eventTrack);
-
-    Tab.set(
-      getTab(
-        state.track_window.current_track.name,
-        state.track_window.current_track.artists[0].name,
-        eventTrack,
-      ),
-    );
-
-    // reset timer
-    Progress.reset();
-
-    Progress.update((progress) => { 
-      progress.maxMS = state.duration;
-      return progress;
-    });
-
-    updateTabCache(state.track_window.next_tracks);
+  if (!eventTrack || eventTrack?.id === currentTrack?.id) {
+    return
   }
+
+  CurrentTrack.set(eventTrack);
+
+  Tab.set(
+    getTab(
+      state.track_window.current_track.name,
+      state.track_window.current_track.artists[0].name,
+      eventTrack,
+    ),
+  );
+
+  // reset timer
+  Progress.reset();
+
+  Progress.update((progress) => {
+    progress.maxMS = state.duration;
+    return progress;
+  });
+
+  updateTabCache(state.track_window.next_tracks);
 });
 

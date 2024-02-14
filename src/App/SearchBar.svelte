@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { push } from "svelte-spa-router";
     import { buildURLWithParams, clickOutside, getHeaders, spotifyRequest } from "../lib/utils";
     import HelpTooltip from "./HelpTooltip.svelte";
 
@@ -36,12 +37,12 @@
         {#if active && results && results.tracks.items}
             <!-- @ts-ignore -->
             <div
-                class="absolute top-16 bg-base-100  shadow-xl z-10 rounded-xl p-4 max-w-md overflow-y-scroll max-h-96 mt-4"
+                class="absolute top-16 bg-base-200 max-w-md shadow-xl z-50 rounded-xl p-4 overflow-y-scroll max-h-96 mt-4"
                 use:clickOutside
                 on:click_outside={() => (active = false)}
             >
                 {#if results.tracks.items.length === 0}
-                    <div class="w-[300px] text-gray-500">No results</div>
+                    <div class=" text-gray-500">No results</div>
                 {/if}
                 {#each results.tracks.items as track}
                     <div class=" flex justify-between gap-4">
@@ -63,6 +64,8 @@
                                 );
                                 active = false;
                                 query = "";
+
+                                push("/jam")
                             }}
                         >
                             <div class="p-1 shrink-0">

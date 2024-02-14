@@ -76,7 +76,6 @@ function createAppStore() {
       // get and set the user's profile
       UserStore.init(token);
 
-      yourExploreStore.getPlaylists()
 
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {
@@ -92,6 +91,8 @@ function createAppStore() {
           callback(store.token);
         },
       });
+
+      yourExploreStore.getPlaylists()
 
       if (!await player.connect()) {
         throw ("Player initialization error");
@@ -118,14 +119,21 @@ function createAppStore() {
 
 const assignErrors = (player: Spotify.Player) => {
   player.on("account_error", () => {
-    window.location.href = "/";
+    console.log("Account error")
+    localStorage.removeItem("token")
+    localStorage.removeItem("tokenExpiresIn")
+    window.location.href = `/?message=${encodeURIComponent("Make sure you have Spotify premium")}`;
   });
 
   player.on("initialization_error", () => {
-    window.location.href = `/?message=${encodeURIComponent("Token expired")}`;
+    localStorage.removeItem("token")
+    localStorage.removeItem("tokenExpiresIn")
+    window.location.href = `/?message=${encodeURIComponent("Token expired, sign in again")}`;
   });
 
   player.on("authentication_error", () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("tokenExpiresIn")
     window.location.href = `/?message=${encodeURIComponent("Make sure you have Spotify premium")}`;
 
   });

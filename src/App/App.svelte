@@ -13,10 +13,16 @@
     import Tutorial from "./Tutorial.svelte";
     import Reconnect from "./Reconnect.svelte";
     import Explore from "./Explore/Explore.svelte";
+    import Search from "./Search/Search.svelte";
+    import Artist from "./Search/Artist/Artist.svelte";
+    import Album from "./Search/Album.svelte";
     export const routes = {
         "/": Explore,
         "/jam": TabContainer,
         "/profile": Profile,
+        "/search": Search,
+        "/artist/:name": Artist,
+        "/album/:id": Album
     };
     profile.init();
 </script>

@@ -38,8 +38,12 @@ export const spotifyRequest = async (url: string, method = "GET", body?: string)
     headers,
     body
   });
+  try {
+    return await res.json();
 
-  return await res.json();
+  } catch {
+
+  }
 };
 
 export function clickOutside(node) {
@@ -59,4 +63,35 @@ export function clickOutside(node) {
       document.removeEventListener('click', handleClick, true);
     }
   }
+}
+
+export async function playSong(uri: string="", context_uri="", offset=undefined) {
+
+  const body = {}
+
+  if (uri) {
+    body["uris"] = [uri]
+  }
+
+  if (context_uri) {
+    body["context_uri"] = context_uri
+  }
+
+  if (offset) {
+    body["offset"] = offset
+  }
+
+  await spotifyRequest(`https://api.spotify.com/v1/me/player/play`, "PUT", JSON.stringify(body))
+}
+
+export async function queueSong(uri: string) {
+  const headers = getHeaders();
+
+  await fetch(
+    `https://api.spotify.com/v1/me/player/queue?uri=${uri}`,
+    {
+      headers,
+      method: "POST",
+    }
+  );
 }

@@ -15,7 +15,7 @@ export const updateTabCache = async (nextSongs: Spotify.Track[]) => {
 };
 
 // const API_ROUTE = "https://jr8ydenc5j.execute-api.us-east-1.amazonaws.com"
-const API_ROUTE = "https://qn7mrh0vk1.execute-api.us-east-1.amazonaws.com"
+export const API_ROUTE = "https://qn7mrh0vk1.execute-api.us-east-1.amazonaws.com"
 /**
  * Gets the tab from the server or the cache
  */
@@ -51,3 +51,19 @@ export const getTab = async (
   } catch {
   }
 };
+
+export const checkOnTabify = async (name: string, artist: string, song: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified) => {
+  let formattedName = name.split(" - ")[0];
+  formattedName = formattedName.split("(")[0];
+
+  const res = await fetch(
+    `${API_ROUTE}/onug?song=${encodeURIComponent(formattedName)}&artist=${encodeURIComponent(
+      artist,
+    )
+    }&spotifyId=${song.id}`,
+  );
+
+  const inTabify = await res.text();
+
+  return inTabify === 'true'
+}

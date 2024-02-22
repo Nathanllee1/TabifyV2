@@ -1,7 +1,7 @@
 import { CurrentTrack } from "../../lib/SpotifyStateStore";
 import { writable } from "svelte/store";
 import { requestRecommendations } from "./Queue";
-import { TabCache, getTab } from "../../lib/TabStore";
+import { TabCache, checkOnTabify, getTab } from "../../lib/TabStore";
 
 
 export const recommendationOpen = writable(false)
@@ -18,18 +18,9 @@ export async function getRecommendations(id: string) {
     await Promise.all(
         spotifyRecs.tracks.map((track) => {
             return (async () => {
-                const tabs = await getTab(
-                    track.name,
-                    track.artists[0].name,
-                    track,
-                );
 
-                TabCache.update((cache) => {
-                    cache[track.id] = tabs;
-                    return cache;
-                });
-
-                if (tabs && tabs.length !== 0) {
+                const onTabify = await checkOnTabify(track.name, track.artists[0].name, track)
+                if (onTabify) {
                     recommendations.update(recommendation => {
                         return [...recommendation, track]
                     })

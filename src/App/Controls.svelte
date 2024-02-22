@@ -8,7 +8,8 @@
     import { AutoScroll } from "../lib/Autoscroll";
     import HelpCard from "./Help/HelpCard.svelte";
     import HelpTooltip from "./HelpTooltip.svelte";
-    import { push } from "svelte-spa-router";
+    import { link, push } from "svelte-spa-router";
+    import ListOfArtists from "./Search/ListOfArtists.svelte";
 </script>
 
 <div
@@ -19,21 +20,24 @@
     <div class="flex w-full align-middle gap-4">
         {#if $SpotifyState && $SpotifyState.track_window}
             <div class="flex-none self-center hidden lg:block">
-                <img
+                <a use:link href={`/album/${$SpotifyState.track_window.current_track.album.uri.split(":").slice(-1)}`}>
+                    <img
                     class=""
                     crossorigin="anonymous"
                     src={$SpotifyState.track_window.current_track.album.images[1]
                         .url}
                     alt={$SpotifyState.track_window.current_track.album.name}
                 />
+                    </a>
+                
             </div>
 
             <div class="lg:basis-1/4 basis-[50%] self-center">
-                <button class="block text-lg font-bold hover:link text-ellipsis h-10" on:click={() => push("/jam")}>
+                <a class="block text-lg font-bold hover:link text-ellipsis h-10" href="/jam" use:link >
                     {$SpotifyState.track_window.current_track.name}
-                </button>
+                </a>
                 <div>
-                    {getArtistObjAsString( $SpotifyState.track_window.current_track.artists)}
+                    <ListOfArtists artists={ $SpotifyState.track_window.current_track.artists} />
                 </div>
             </div>
 

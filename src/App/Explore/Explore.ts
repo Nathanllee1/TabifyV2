@@ -1,4 +1,4 @@
-import { TabCache, getTab } from "../../lib/TabStore"
+import { TabCache, checkOnTabify, getTab } from "../../lib/TabStore"
 import { buildURLWithParams, spotifyRequest } from "../../lib/utils"
 import { writable } from "svelte/store"
 
@@ -22,16 +22,11 @@ export const yourExploreStore = (() => {
 
             const filteredSongs = (await Promise.all(topUserSongs.items.map((item) => {
                 return (async () => {
-                    const tabs = await getTab(item.name, item.artists[0].name, item)
-
-                    TabCache.update(cache => {
-                        cache[item.id] = tabs;
-                        return cache
-                    })
+                    const availableOnTabify = await checkOnTabify(item.name, item.artists[0].name, item)
 
                     return {
                         track: item,
-                        availableOnTabify: tabs && tabs.length !== 0
+                        availableOnTabify
                     }
                 })()
             })))

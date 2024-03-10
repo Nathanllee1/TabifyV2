@@ -55,9 +55,8 @@ export default async function handler(
   const authOptions = {
     method: "POST",
     headers: {
-      "Authorization": `Basic ${
-        btoa(`${spotify_client_id}:${spotify_client_secret}`)
-      }`,
+      "Authorization": `Basic ${btoa(`${spotify_client_id}:${spotify_client_secret}`)
+        }`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
@@ -74,29 +73,30 @@ export default async function handler(
   const body = await res.json();
 
   const user = await getSpotifyUser(body.access_token);
+  console.log(user)
 
-      const connection = createConnection(process.env.DATABASE_URL);
-      const userRes = await query(
-        connection,
-        "SELECT * FROM USERS WHERE USER_ID = ?",
-        [user.id],
-      ) as string[];
-      console.log(userRes);
-      // if the user doesn't exist, create them
-      if (userRes.length === 0) {
-        console.log('Creating user')
-        await query(
-          connection,
-          "INSERT INTO USERS (USER_ID, USERNAME)\
+  const connection = createConnection(process.env.DATABASE_URL);
+  const userRes = await query(
+    connection,
+    "SELECT * FROM USERS WHERE USER_ID = ?",
+    [user.id],
+  ) as string[];
+  console.log(userRes);
+  // if the user doesn't exist, create them
+  if (userRes.length === 0) {
+    console.log('Creating user')
+    await query(
+      connection,
+      "INSERT INTO USERS (USER_ID, USERNAME)\
           VALUES (?, ?)",
-          [user.id, user.display_name],
-        );
-      }
+      [user.id, user.display_name],
+    );
+  }
 
   // new session
   await query(
     connection,
-"INSERT INTO SESSIONS (SESSION_ID, USER_ID, TIME_START)\
+    "INSERT INTO SESSIONS (SESSION_ID, USER_ID, TIME_START)\
         VALUES (?, ?, ?)",
     [body.access_token, user.id, convertToMySQLDate(new Date())],
   );
@@ -132,7 +132,7 @@ export const getUserFromSession = async (
 ) => {
   return await query(
     connection,
-"SELECT DISTINCT USER_ID \
+    "SELECT DISTINCT USER_ID \
     FROM SESSIONS \
     WHERE SESSION_ID = ?",
     [session],

@@ -24,7 +24,7 @@ function getToken() {
 
   token = localStorage.getItem("token")
   const expiresIn = parseInt(localStorage.getItem("tokenExpiresIn"))
-  
+
   console.log(token)
   if (!token) {
     return undefined
@@ -34,7 +34,7 @@ function getToken() {
     localStorage.removeItem("token")
     localStorage.removeItem("tokenExpiresIn")
     window.location.assign("/api/login")
-  }, expiresIn - new Date().getTime() )
+  }, expiresIn - new Date().getTime())
 
   return token
 }
@@ -79,7 +79,11 @@ function createAppStore() {
 
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {
-        window.location.href = "/";
+        console.log("Timed out")
+        localStorage.removeItem("token")
+        localStorage.removeItem("tokenExpiresIn")
+        window.location.assign("/api/login")
+        // window.location.href = "/";
         return;
       }, 10000);
 

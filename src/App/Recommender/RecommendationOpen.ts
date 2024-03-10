@@ -33,5 +33,10 @@ export async function getRecommendations(id: string) {
 }
 
 CurrentTrack.subscribe(async (track) => {
+
+    if (!track) {
+        return
+    }
+
     await getRecommendations(track.id);
 });

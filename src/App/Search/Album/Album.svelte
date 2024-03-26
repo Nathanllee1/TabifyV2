@@ -5,10 +5,11 @@
         getTimestamp,
         playSong,
         spotifyRequest,
-    } from "../../lib/utils";
+    } from "../../../lib/utils";
     import { onMount } from "svelte";
     import AlbumTr from "./AlbumTR.svelte";
-    import ListOfArtists from "./ListOfArtists.svelte";
+    import ListOfArtists from "../ListOfArtists.svelte";
+    import { CurrentTrack } from "../../../lib/SpotifyStateStore";
 
     export let params;
 
@@ -23,6 +24,7 @@
 
 <div class="p-10 overflow-y-auto gap-10">
     {#if album}
+
         <div class="flex justify-center">
             <div class="flex gap-10 flex-wrap pl-5">
                 <div>
@@ -37,9 +39,14 @@
                     </a>
                 </div>
                 <div class="w-[370px]">
-                    <a href={album.external_urls.spotify} target="_blank" class="link link-hover text-4xl font-bold">{album.name}</a>
+                    <a
+                        href={album.external_urls.spotify}
+                        target="_blank"
+                        class="link link-hover text-4xl font-bold"
+                        >{album.name}</a
+                    >
                     <br />
-
+                    <br />
                     <ListOfArtists artists={album.artists} />
                     <br />
                     <br />

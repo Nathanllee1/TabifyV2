@@ -15,7 +15,7 @@
     import Explore from "./Explore/Explore.svelte";
     import Search from "./Search/Search.svelte";
     import Artist from "./Search/Artist/Artist.svelte";
-    import Album from "./Search/Album.svelte";
+    import Album from "./Search/Album/Album.svelte";
     export const routes = {
         "/": Explore,
         "/jam": TabContainer,

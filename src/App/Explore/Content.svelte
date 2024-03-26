@@ -3,6 +3,7 @@
     import { getArtistObjAsString, getHeaders } from "../../lib/utils";
     import { onMount } from "svelte";
     import { push } from "svelte-spa-router";
+    import ListOfArtists from "../Search/ListOfArtists.svelte";
 
     export let trackObj: {
         track: SpotifyApi.TrackObjectFull;

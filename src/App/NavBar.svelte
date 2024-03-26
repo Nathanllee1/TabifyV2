@@ -20,7 +20,6 @@
         <div class="text-xl ml-3 font-bold pr-5 hidden lg:block">Tabify</div>
         <div class="flex gap-4">
             <Link linkName="Explore" href="" />
-            <!--<Link linkName="Jam" href="jam" />-->
             <div class="indicator">
                 <a
                     class={`hover:link self-center pr-2 ${

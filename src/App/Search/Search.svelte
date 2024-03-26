@@ -8,6 +8,7 @@
     import { link, push, querystring } from "svelte-spa-router";
     import SearchItem from "./SearchItem.svelte";
     import Artist from "./Artist/Artist.svelte";
+    import TrackSearchItem from "./TrackSearchItem.svelte";
 
     let results: SpotifyApi.SearchResponse;
 
@@ -67,10 +68,11 @@
     });
 </script>
 
-<div class="p-10 overflow-y-auto flex-wrap text-left">
+<div class="lg:p-10 p-2 overflow-y-auto flex-wrap text-left">
     <br />
     <div class="flex flex-wrap gap-10 justify-center">
         {#if results}
+            <!--
             {#if topResult}
                 <div>
                     <div class="text-3xl font-bold">Top Result</div>
@@ -93,38 +95,27 @@
                                 push("/jam");
                             }}
                         >
-                            <SearchItem
-                                imgSrc={topResult.album.images[1].url}
-                                title={topResult.name}
-                                top={true}
-                            >
-                                <div slot="label">Track</div>
-                                
-                            </SearchItem>
+                            <div>
+                                <SearchItem
+                                    imgSrc={topResult.album.images[1].url}
+                                    title={topResult.name}
+                                    top={true}
+                                >
+                                    <div slot="label">Track</div>
+                                </SearchItem>
+                            </div>
                         </button>
                     {/if}
                 </div>
             {/if}
-
+            -->
             <div>
                 {#if results.tracks}
                     <div class="text-3xl">Tracks</div>
                     <br />
                     <div class="flex flex-wrap gap-4 align-top">
                         {#each results.tracks.items as track}
-                            <button
-                                on:click={async () => {
-                                    await playSong(track.uri);
-                                    push("/jam");
-                                }}
-                            >
-                                <SearchItem
-                                    imgSrc={track.album.images[1].url}
-                                    title={track.name}
-                                >
-                                    {getArtistObjAsString(track.artists)}
-                                </SearchItem>
-                            </button>
+                            <TrackSearchItem {track} />
                         {/each}
                     </div>
                 {/if}
@@ -135,11 +126,17 @@
                     <br />
                     <div class="flex flex-wrap gap-4">
                         {#each results.artists.items as artist}
-                            <a href={`/artist/${artist.id}`} use:link>
+                            <a class="md:flex-none flex-grow" href={`/artist/${artist.id}`} use:link>
                                 <SearchItem
                                     imgSrc={artist?.images[0]?.url}
                                     title={artist?.name}
-                                />
+                                >
+                                    <div slot="label">
+                                        <div class="badge badge-neutral">
+                                            Artist
+                                        </div>
+                                    </div></SearchItem
+                                >
                             </a>
                         {/each}
                     </div>
@@ -151,7 +148,7 @@
                     <br />
                     <div class="flex flex-wrap gap-4">
                         {#each results.albums.items as album}
-                            <a href={`/album/${album.id}`} use:link>
+                            <a href={`/album/${album.id}`} use:link class="md:flex-none flex-grow">
                                 <SearchItem
                                     imgSrc={album?.images[0]?.url}
                                     title={album?.name}

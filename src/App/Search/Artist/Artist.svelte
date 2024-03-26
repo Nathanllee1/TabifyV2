@@ -28,12 +28,10 @@
         ]);
 
         artistColor = (
-            await new FastAverageColor().getColorAsync(
-                artistInfo.images[1].url,
-            )
+            await new FastAverageColor().getColorAsync(artistInfo.images[1].url)
         ).hex;
 
-        console.log(artistColor)
+        console.log(artistColor);
 
         console.log(topTracks);
     });
@@ -44,11 +42,15 @@
         {#if artistInfo}
             <div class="max-w-[350px]">
                 <div>
-                    <a href={artistInfo.external_urls.spotify} target="_blank" class={`hover:underline text-5xl font-bold text-primary`}>
+                    <a
+                        href={artistInfo.external_urls.spotify}
+                        target="_blank"
+                        class={`hover:underline text-5xl font-bold text-primary`}
+                    >
                         {artistInfo.name}
                     </a>
                 </div>
-                
+
                 <br />
                 <img
                     src={artistInfo?.images[0]?.url}
@@ -59,7 +61,7 @@
 
             <table class="table max-w-[560px]">
                 {#each topTracks.tracks.slice(0, 5) as track}
-                    <ArtistTr {track} {artistInfo}/>
+                    <ArtistTr {track} {artistInfo} />
                 {/each}
             </table>
         {/if}
@@ -74,7 +76,11 @@
                     <br />
                     <div class="flex gap-6 flex-wrap max-w-[1000px]">
                         {#each albums.items as album}
-                            <a href={`/album/${album.id}`} use:link>
+                            <a
+                                href={`/album/${album.id}`}
+                                use:link
+                                class="md:flex-none flex-grow"
+                            >
                                 <SearchItem
                                     imgSrc={album.images[0].url}
                                     title={album.name}

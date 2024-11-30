@@ -76,7 +76,6 @@ function createAppStore() {
       // get and set the user's profile
       UserStore.init(token);
 
-
       // timeout just in case none of the earlier errors throw :(
       const timeout = setTimeout(() => {
         console.log("Timed out")
@@ -170,6 +169,7 @@ export const switchDevice = async () => {
   const token = get(AppStore).token;
   const deviceId = get(AppStore).deviceId;
   const myHeaders = new Headers();
+
   myHeaders.append(
     "Authorization",
     `Bearer ${token}`,
@@ -192,7 +192,6 @@ export const switchDevice = async () => {
     `https://api.spotify.com/v1/me/player?device_id=${deviceId}`,
     requestOptions,
   );
-
   if (!res.ok) {
     await forceSwitch(deviceId, token);
     AppStore.update((store) => {
@@ -208,16 +207,6 @@ const waitForPlayerSwitch = async (deviceId: string) => {
   return new Promise<void>(async (resolve, reject) => {
     const appStore = get(AppStore);
 
-    try {
-      await switchDevice();
-
-      AppStore.update((store) => {
-        store.connected = true;
-        return store;
-      });
-    } catch {
-      resolve();
-    }
 
     appStore.player.on("player_state_changed", (state) => {
       // error state, probably device switching
@@ -249,8 +238,25 @@ const waitForPlayerSwitch = async (deviceId: string) => {
         return store;
       });
 
-
       resolve();
     });
+
+    try {
+      await switchDevice();
+
+      AppStore.update((store) => {
+        store.connected = true;
+        return store;
+      });
+    } catch {
+      resolve();
+    }
+
+    AppStore.update((store) => {
+      store.connected = true;
+      return store;
+    });
+
+    resolve();
   });
 };

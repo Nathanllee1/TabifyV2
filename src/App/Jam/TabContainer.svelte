@@ -10,6 +10,7 @@
 
     // Log the tab in history
     Tab.subscribe(async (tab) => {
+        if (!tab) return;
         await fetch(
             `/api/history?song_id=${
                 get(SpotifyState).track_window.current_track.id
@@ -18,7 +19,7 @@
     });
 </script>
 
-<Recommender />
+
 {#if $Tab}
     {#await $Tab}
         <Loading />

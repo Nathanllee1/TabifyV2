@@ -30,7 +30,7 @@
                     href={"/#/jam"}>Jam</a
                 >
 
-                {#if tabs.length !== 0}
+                {#if tabs && tabs.length !== 0}
                     <span
                         class="indicator-item badge badge-xs badge-primary animate-pulse"
                     ></span>

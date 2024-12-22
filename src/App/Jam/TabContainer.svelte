@@ -14,11 +14,10 @@
         await fetch(
             `/api/history?song_id=${
                 get(SpotifyState).track_window.current_track.id
-            }&tab_returned=${(await tab).length === 0 ? "f" : "t"}`
+            }&tab_returned=${(await tab).length === 0 ? "f" : "t"}`,
         );
     });
 </script>
-
 
 {#if $Tab}
     {#await $Tab}
@@ -120,6 +119,13 @@
             {/if}
         </div>
     {/await}
+{:else}
+
+    <div class="text-4xl p-10">
+        Select a song by using the search or in <a href="/#/" class="link">Explore</a>
+    </div>
+
+
 {/if}
 
 <style>

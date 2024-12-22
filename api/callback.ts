@@ -87,9 +87,17 @@ export default async function handler(
     console.log('Creating user')
     await query(
       connection,
-      "INSERT INTO USERS (USER_ID, USERNAME)\
-          VALUES (?, ?)",
-      [user.id, user.display_name],
+      "INSERT INTO USERS (USER_ID, USERNAME, email)\
+          VALUES (?, ?, ?)",
+      [user.id, user.display_name, user.email],
+    );
+  } else {
+    // User exists, update their email
+    console.log('Updating user email');
+    await query(
+      connection,
+      "UPDATE USERS SET email = ? WHERE USER_ID = ?",
+      [user.email, user.id],
     );
   }
 

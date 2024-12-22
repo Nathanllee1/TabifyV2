@@ -9,22 +9,42 @@
     import SearchItem from "./SearchItem.svelte";
     import Artist from "./Artist/Artist.svelte";
     import TrackSearchItem from "./TrackSearchItem.svelte";
+    import { calculateTextMatchingScore } from "../../lib/TextMatching";
+    import { searchLoadingStore } from "../../lib/SearchLoading";
 
     let results: SpotifyApi.SearchResponse;
-
+    let searchText: string;
     let topResult: SpotifyApi.ArtistObjectFull | SpotifyApi.TrackObjectFull;
 
-    function getMaxPopularity(results: SpotifyApi.SearchResponse) {
+    function getTopItem(results: SpotifyApi.SearchResponse) {
         const allItems = [...results.artists.items, ...results.tracks.items];
 
-        const top = allItems.reduce((prev, current) => {
-            if (!prev || current.popularity > prev.popularity) {
+        const scoredItems = allItems.map((item) => {
+            const textMatchingScore = calculateTextMatchingScore(
+                searchText,
+                item.name,
+            );
+            const adjustedPopularity = item.popularity / 100;
+
+            const overallScore =
+                textMatchingScore * 0.9 + adjustedPopularity * 0.1;
+
+            return {
+                overallScore,
+                item,
+            };
+        });
+
+        calculateTextMatchingScore;
+
+        const top = scoredItems.reduce((prev, current) => {
+            if (!prev || current.overallScore > prev.overallScore) {
                 return current;
             }
             return prev;
         });
 
-        return top;
+        return top.item;
     }
 
     function debounce(func, timeout = 300) {
@@ -43,21 +63,20 @@
             return;
         }
 
-        console.log("LOOKING UP");
-        const rawText = new URLSearchParams(query).get("q");
-
-        console.log(rawText);
+        searchText = new URLSearchParams(query).get("q");
 
         const search = buildURLWithParams("https://api.spotify.com/v1/search", {
-            q: encodeURIComponent(rawText),
+            q: encodeURIComponent(searchText),
             type: "track,album,artist",
             limit: "4",
         });
 
+        searchLoadingStore.set(true);
         results = await spotifyRequest(search, "GET", undefined);
 
-        topResult = getMaxPopularity(results);
+        topResult = getTopItem(results);
 
+        searchLoadingStore.set(false);
         return results;
     }
 
@@ -72,21 +91,27 @@
     <br />
     <div class="flex flex-wrap gap-10 justify-center">
         {#if results}
-            <!--
             {#if topResult}
                 <div>
                     <div class="text-3xl font-bold">Top Result</div>
                     <br />
 
                     {#if topResult.type === "artist"}
-                        <a href={`/artist/${topResult.id}`} use:link>
+                        <a
+                            class="md:flex-none flex-grow"
+                            href={`/artist/${topResult.id}`}
+                            use:link
+                        >
                             <SearchItem
-                                imgSrc={topResult.images[0].url}
-                                title={topResult.name}
-                                top={true}
+                                imgSrc={topResult?.images[0]?.url}
+                                title={topResult?.name}
                             >
-                                <div slot="label">Artist</div>
-                            </SearchItem>
+                                <div slot="label">
+                                    <div class="badge badge-neutral">
+                                        Artist
+                                    </div>
+                                </div></SearchItem
+                            >
                         </a>
                     {:else}
                         <button
@@ -96,19 +121,14 @@
                             }}
                         >
                             <div>
-                                <SearchItem
-                                    imgSrc={topResult.album.images[1].url}
-                                    title={topResult.name}
-                                    top={true}
-                                >
-                                    <div slot="label">Track</div>
-                                </SearchItem>
+                                <TrackSearchItem track={topResult} />
+
                             </div>
                         </button>
                     {/if}
                 </div>
             {/if}
-            -->
+
             <div>
                 {#if results.tracks}
                     <div class="text-3xl">Tracks</div>
@@ -126,7 +146,11 @@
                     <br />
                     <div class="flex flex-wrap gap-4">
                         {#each results.artists.items as artist}
-                            <a class="md:flex-none flex-grow" href={`/artist/${artist.id}`} use:link>
+                            <a
+                                class="md:flex-none flex-grow"
+                                href={`/artist/${artist.id}`}
+                                use:link
+                            >
                                 <SearchItem
                                     imgSrc={artist?.images[0]?.url}
                                     title={artist?.name}
@@ -148,7 +172,11 @@
                     <br />
                     <div class="flex flex-wrap gap-4">
                         {#each results.albums.items as album}
-                            <a href={`/album/${album.id}`} use:link class="md:flex-none flex-grow">
+                            <a
+                                href={`/album/${album.id}`}
+                                use:link
+                                class="md:flex-none flex-grow"
+                            >
                                 <SearchItem
                                     imgSrc={album?.images[0]?.url}
                                     title={album?.name}

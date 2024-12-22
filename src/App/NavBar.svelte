@@ -17,7 +17,7 @@
 
 <div class="navbar bg-base-200 justify-between">
     <div>
-        <div class="text-xl ml-3 font-bold pr-5 hidden lg:block">Tabify</div>
+        <a href="/#/" class="text-xl ml-3 font-bold pr-5 hidden lg:block">Tabify</a>
         <div class="flex gap-4">
             <Link linkName="Explore" href="" />
             <div class="indicator">

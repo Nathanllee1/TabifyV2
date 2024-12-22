@@ -1,6 +1,7 @@
 <script lang="ts">
     import { querystring, replace } from "svelte-spa-router";
     import HelpTooltip from "./HelpTooltip.svelte";
+    import { searchLoadingStore } from "../lib/SearchLoading";
 
     let query = new URLSearchParams($querystring).get("q");
     async function searchSpotify() {
@@ -26,4 +27,9 @@
     <div class="hidden lg:block">
         <HelpTooltip message="Quickly play and queue songs" />
     </div>
+
+    {#if $searchLoadingStore}
+    <span class="ml-2 loading loading-spinner loading-md text-primary"></span>
+
+    {/if}
 </div>

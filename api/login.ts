@@ -1,9 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-var spotify_redirect_uri = "http://localhost:3000/api/callback";
-if (process.env.PRODUCTION === "True") {
-  spotify_redirect_uri = "https://www.tabify.app/api/callback";
-}
+const spotify_redirect_uri =
+  process.env.SPOTIFY_REDIRECT_URI ||
+  (process.env.PRODUCTION === "True"
+    ? "https://www.tabify.app/api/callback"
+    : "http://127.0.0.1:3000/api/callback");
 
 var generateRandomString = function (length) {
   var text = "";

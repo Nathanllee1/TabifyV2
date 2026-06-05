@@ -23,6 +23,8 @@
     {#await $Tab}
         <Loading />
     {:then tab_obj}
+        <Recommender />
+
         <div class="overflow-y-auto lg:overflow-x-hidden" id="tabContainer">
             {#if tab_obj.length === 0}
                 <div class="flex justify-center align-middle">
@@ -120,12 +122,11 @@
         </div>
     {/await}
 {:else}
-
     <div class="text-4xl p-10">
-        Select a song by using the search or in <a href="/#/" class="link">Explore</a>
+        Select a song by using the search or in <a href="/#/" class="link"
+            >Explore</a
+        >
     </div>
-
-
 {/if}
 
 <style>

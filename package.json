@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite --host 0.0.0.0",
-    "run-dev": "vercel dev",
+    "run-dev": "vercel dev --listen 127.0.0.1:3000",
     "build": "vite build",
+    "deploy": "vercel --prod",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "serve": "vite preview",

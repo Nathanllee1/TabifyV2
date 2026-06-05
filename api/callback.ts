@@ -7,12 +7,11 @@ import fetch, { Headers } from "node-fetch";
 var spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 var spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-var spotify_redirect_uri = "http://localhost:3000/api/callback";
-if (process.env.PRODUCTION === "True") {
-  spotify_redirect_uri = "https://www.tabify.app/api/callback";
-} else if (process.env.PRODUCTION === "False") {
-  spotify_redirect_uri = "https://tabify2-nathanllee1.vercel.app/api/callback"
-}
+const spotify_redirect_uri =
+  process.env.SPOTIFY_REDIRECT_URI ||
+  (process.env.PRODUCTION === "True"
+    ? "https://www.tabify.app/api/callback"
+    : "http://127.0.0.1:3000/api/callback");
 
 const getSpotifyUser = async (authToken: string) => {
   const myHeaders = new Headers();

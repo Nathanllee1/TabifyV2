@@ -1,14 +1,11 @@
 <script lang="ts">
     import { FastAverageColor } from "fast-average-color";
-    import { getArtistObjAsString, getHeaders } from "../../lib/utils";
+    import { getArtistObjAsString, playSong } from "../../lib/utils";
     import { onMount } from "svelte";
     import { push } from "svelte-spa-router";
-    import ListOfArtists from "../Search/ListOfArtists.svelte";
+    import type { ExploreTrack } from "./Explore";
 
-    export let trackObj: {
-        track: SpotifyApi.TrackObjectFull;
-        availableOnTabify: boolean;
-    };
+    export let trackObj: ExploreTrack;
 
     let track = trackObj.track;
 
@@ -22,27 +19,12 @@
     });
 </script>
 
-<div
-    class={`${
-        trackObj.availableOnTabify
-            ? ""
-            : "grayscale opacity-40 backdrop-brightness-50"
-    }`}
->
+<div class="px-2 py-3">
     <button
         class="card card-compact border-2 rounded-lg w-72 bg-base transition ease-in-out delay-200 hover:scale-105 h-full"
         style={`border-color: ${borderColor}`}
         on:click={async () => {
-            const headers = getHeaders();
-            await fetch("https://api.spotify.com/v1/me/player/play", {
-                method: "PUT",
-                body: JSON.stringify({
-                    uris: [track.uri],
-                    // context_uri: track.uri
-                }),
-                headers,
-            });
-
+            await playSong(track.uri);
             push("/jam")
         }}
     >
@@ -55,11 +37,7 @@
         </figure>
         <div class="w-full justify-start text-start p-4">
             <div class="w-full">
-                {#if trackObj.availableOnTabify}
-                    <div class="badge badge-primary">Available on Tabify</div>
-                {:else}
-                    <div class="badge badge-ghost">Unavailable on Tabify</div>
-                {/if}
+                <div class="badge badge-primary">Ready to Jam</div>
                 <div class="card-title font-bold mt-2">{track.name}</div>
                 <div>{getArtistObjAsString(track.artists)}</div>
             </div>

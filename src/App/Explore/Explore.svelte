@@ -5,17 +5,26 @@
 
 <div class="flex justify-center overflow-y-auto p-6">
     <div class=" p-4 ">
+        <div class="alert alert-info text-white mb-4">
+            <span>
+                Hey it's Nathan, creator of Tabify. Apologies for the tab
+                scraping being down, reach out to me
+                <a class="link link-primary" target="_blank" href="https://forms.gle/YBNbsxmbGa8ZqGfA8">here</a>
+                if you notice anything not working in the future.
+            </span>
+        </div>
+
         <div class="text-4xl mb-4">Your Top Songs on Tabify</div>
         <div class="flex gap-8 flex-wrap pb-4 justify-center">
             {#if $yourExploreStore && $yourExploreStore.length !== 0}
-                {#each $yourExploreStore as playlist}
+                {#each $yourExploreStore as playlist (playlist.track.id)}
                     <Content trackObj={playlist} />
                 {/each}
             {:else}
-                {#each Array(12).fill(0) as item}
+                {#each Array(12).fill(0) as item, i (i)}
                     <div
                         class="animate-pulse w-[288px] h-[436px] bg-base-200 rounded-lg"
-                    />
+                    ></div>
                 {/each}
             {/if}
         </div>
